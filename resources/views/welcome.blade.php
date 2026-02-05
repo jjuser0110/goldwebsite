@@ -590,7 +590,7 @@
 
             .rates-table th,
             .rates-table td {
-                padding: 1rem;
+                padding: 0.6rem;
                 font-size: 1rem;
             }
 
@@ -635,7 +635,7 @@
 
             .rates-table th,
             .rates-table td {
-                padding: 0.8rem;
+                padding: 0.4rem;
                 font-size: 0.95rem;
             }
 
