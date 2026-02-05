@@ -854,11 +854,11 @@
             <div class="contact-methods">
                 <div class="contact-item">
                     <h3>📱 WhatsApp</h3>
-                    <a href="https://wa.me/601657227011" target="_blank">+6016-572 7011</a>
+                    <a href="https://wa.me/60165727011" target="_blank">+6016-572 7011</a>
                 </div>
                 <div class="contact-item">
                     <h3>📞 <span data-en="Phone" data-cn="电话" data-bm="Telefon">Phone</span></h3>
-                    <a href="tel:+601657227011">+6016-572 7011</a>
+                    <a href="tel:+60165727011">+6016-572 7011</a>
                 </div>
             </div>
             
