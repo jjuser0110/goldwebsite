@@ -1,6 +1,6 @@
 
     <div class="logo-container">
-        <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+        <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar" style="background-color:gold !important">
             <div class="container-xxl">
               <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
                 <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -10,19 +10,19 @@
 
               <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                 <!-- Search -->
-                <div class="navbar-nav align-items-center">
+                <!-- <div class="navbar-nav align-items-center">
                   <div class="nav-item navbar-search-wrapper mb-0">
                     <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
                       <i class="bx bx-search-alt bx-sm"></i>
                       <span class="d-none d-md-inline-block">Search (Ctrl+/)</span>
                     </a>
                   </div>
-                </div>
+                </div> -->
                 <!-- /Search -->
 
                 <ul class="navbar-nav flex-row align-items-center ms-auto">
                   <!-- Language -->
-                  <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+                  <!-- <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                       <i class="bx bx-globe bx-sm"></i>
                     </a>
@@ -64,11 +64,11 @@
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!--/ Language -->
 
                   <!-- Style Switcher -->
-                  <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                  <!-- <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                       <i class="bx bx-sm"></i>
                     </a>
@@ -89,11 +89,11 @@
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- / Style Switcher-->
 
                   <!-- Quick links  -->
-                  <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+                  <!-- <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
                     <a
                       class="nav-link dropdown-toggle hide-arrow"
                       href="javascript:void(0);"
@@ -183,11 +183,11 @@
                         </div>
                       </div>
                     </div>
-                  </li>
+                  </li> -->
                   <!-- Quick links -->
 
                   <!-- Notification -->
-                  <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
+                  <!-- <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
                     <a
                       class="nav-link dropdown-toggle hide-arrow"
                       href="javascript:void(0);"
@@ -425,7 +425,7 @@
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!--/ Notification -->
 
                   <!-- User -->

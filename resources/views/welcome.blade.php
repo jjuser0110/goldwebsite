@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Character Encoding -->
     <meta charset="UTF-8">
+
+    <!-- Viewport for Responsive Design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="6868 GOLD - Professional Gold Buying Service. Best rates for your gold jewelry, ornaments, and scrap gold.">
+
+    <!-- Primary Meta Tags -->
     <title>6868 GOLD - Premium Gold Buyer</title>
+    <meta name="title" content="6868 GOLD - Premium Gold Buyer">
+    <meta name="description" content="6868 GOLD - Professional Gold Buying Service. Best rates for your gold jewelry, ornaments, and scrap gold.">
+    <meta name="keywords" content="gold buying, sell gold, gold jewelry, scrap gold, gold rates, gold ornaments">
+    <meta name="author" content="6868 GOLD">
+
+    <!-- Favicon / App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/horizontallogo.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/img/horizontallogo.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/img/horizontallogo.png')}}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.6868gold.com/">
+    <meta property="og:title" content="6868 GOLD - Premium Gold Buyer">
+    <meta property="og:description" content="6868 GOLD - Professional Gold Buying Service. Best rates for your gold jewelry, ornaments, and scrap gold.">
+    <meta property="og:image" content="https://www.6868gold.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.6868gold.com/">
+    <meta property="twitter:title" content="6868 GOLD - Premium Gold Buyer">
+    <meta property="twitter:description" content="6868 GOLD - Professional Gold Buying Service. Best rates for your gold jewelry, ornaments, and scrap gold.">
+    <meta property="twitter:image" content="https://www.6868gold.com/og-image.jpg">
+
+    <!-- Optional: Theme Color for Mobile -->
+    <meta name="theme-color" content="#aaad0d">
+
     <style>
         * {
             margin: 0;
@@ -41,12 +72,9 @@
             flex-wrap: wrap;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #D4AF37;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 2px;
+        .logo img {
+            height: 40px; /* Keep your desired logo height */
+            display: block; /* Removes any inline spacing issues */
         }
 
         /* Language Switcher */
@@ -116,12 +144,19 @@
 
         /* Hero Section with Beautiful Gold Background */
         .hero {
+        /* Multiple backgrounds: first the gradients, then the image at the bottom */
             background: 
-                linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(61, 61, 61, 0.9) 100%),
+                linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(61, 61, 61, 0.9) 100%),
                 repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(212, 175, 55, 0.03) 10px, rgba(212, 175, 55, 0.03) 20px),
                 radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(244, 208, 63, 0.15) 0%, transparent 50%),
-                #1a1a1a;
+                url('{{asset("assets/img/banner.jpg")}}');
+            
+            /* Make the image cover the container */
+            background-size: cover;        /* Makes the image cover entire hero */
+            background-position: center;   /* Center the image */
+            background-repeat: no-repeat;  /* Avoid repeating */
+            
             color: white;
             padding: 120px 2rem 80px;
             text-align: center;
@@ -129,6 +164,7 @@
             position: relative;
             overflow: hidden;
         }
+
 
         .hero::before {
             content: '';
@@ -499,6 +535,7 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
+
             .nav-container {
                 padding: 0 1rem;
             }
@@ -526,7 +563,7 @@
 
             .nav-menu a {
                 padding: 1rem 2rem;
-                border-bottom: 1px solid #333;
+                /* border-bottom: 1px solid #333; */
             }
 
             .language-switcher {
@@ -540,7 +577,7 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 3rem;
             }
 
             .hero p {
@@ -581,6 +618,9 @@
             .section-title {
                 font-size: 2rem;
             }
+            .nav-menu li {
+                padding: 12px 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -609,7 +649,7 @@
     <!-- Fixed Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">6868 GOLD</div>
+            <div class="logo"><img src="{{asset('assets/img/horizontallogo.png')}}" alt="6868 GOLD Logo"></div>
             <div class="language-switcher">
                 <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
                 <button class="lang-btn" onclick="switchLanguage('cn')">中文</button>
@@ -617,10 +657,10 @@
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home"><span data-en="Home" data-cn="首页" data-bm="Laman Utama">Home</span></a></li>
-                <li><a href="#rates"><span data-en="Gold Rates" data-cn="黄金价格" data-bm="Harga Emas">Gold Rates</span></a></li>
-                <li><a href="#about"><span data-en="About Us" data-cn="关于我们" data-bm="Tentang Kami">About Us</span></a></li>
-                <li><a href="#contact"><span data-en="Contact" data-cn="联系" data-bm="Hubungi">Contact</span></a></li>
+                <li ><a href="#home"><span data-en="Home" data-cn="首页" data-bm="Laman Utama">Home</span></a></li>
+                <li ><a href="#rates"><span data-en="Gold Rates" data-cn="黄金价格" data-bm="Harga Emas">Gold Rates</span></a></li>
+                <li ><a href="#about"><span data-en="About Us" data-cn="关于我们" data-bm="Tentang Kami">About Us</span></a></li>
+                <li ><a href="#contact"><span data-en="Contact" data-cn="联系" data-bm="Hubungi">Contact</span></a></li>
             </ul>
         </div>
     </nav>
@@ -650,7 +690,7 @@
                     <thead>
                         <tr>
                             <th><span data-en="Gold Type" data-cn="黄金类型" data-bm="Jenis Emas">Gold Type</span></th>
-                            <th><span data-en="RM / Gram" data-cn="令吉/克" data-bm="RM / Gram">RM / Gram</span></th>
+                            <th style="text-align: right;"><span data-en="RM / Gram" data-cn="令吉/克" data-bm="RM / Gram">RM / Gram</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -691,7 +731,7 @@
                             <td class="price-cell">RM 167.00</td>
                         </tr>
                         <tr>
-                            <td><strong>钱金/盾金</strong></td>
+                            <td><strong>Gold Coins/Shield Gold</strong></td>
                             <td class="price-cell">RM 477.00</td>
                         </tr>
                         <tr>
@@ -808,6 +848,7 @@
     <section class="contact-section" id="contact">
         <div class="contact-content">
             <h2><span data-en="Get in Touch" data-cn="联系我们" data-bm="Hubungi Kami">Get in Touch</span></h2>
+            <img src="{{asset('assets/img/squarelogo.png')}}" style="height:100px" alt="6868 GOLD Logo">
             <p><span data-en="Ready to sell your gold? Contact us today for the best rates!" data-cn="准备出售您的黄金？立即联系我们获取最优价格！" data-bm="Bersedia untuk menjual emas anda? Hubungi kami hari ini untuk harga terbaik!">Ready to sell your gold? Contact us today for the best rates!</span></p>
             
             <div class="contact-methods">
@@ -835,7 +876,8 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+    <script>
         // Language switching functionality
         let currentLang = 'en';
 
