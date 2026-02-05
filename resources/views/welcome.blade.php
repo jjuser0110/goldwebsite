@@ -232,14 +232,14 @@
 
         /* Rates Section */
         .rates-section {
-            padding: 4rem 1rem;
+            padding: 5rem 1rem;
             background-color: #f8f8f8;
         }
 
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1px;
             color: #1a1a1a;
         }
 
@@ -247,7 +247,7 @@
             text-align: center;
             font-size: 1.1rem;
             color: #666;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
         }
 
         /* Enhanced Table Design */
@@ -657,31 +657,31 @@
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
-                <li ><a href="#home"><span data-en="Home" data-cn="首页" data-bm="Laman Utama">Home</span></a></li>
+                <!-- <li ><a href="#home"><span data-en="Home" data-cn="首页" data-bm="Laman Utama">Home</span></a></li> -->
                 <li ><a href="#rates"><span data-en="Gold Rates" data-cn="黄金价格" data-bm="Harga Emas">Gold Rates</span></a></li>
-                <li ><a href="#about"><span data-en="About Us" data-cn="关于我们" data-bm="Tentang Kami">About Us</span></a></li>
+                <!-- <li ><a href="#about"><span data-en="About Us" data-cn="关于我们" data-bm="Tentang Kami">About Us</span></a></li> -->
                 <li ><a href="#contact"><span data-en="Contact" data-cn="联系" data-bm="Hubungi">Contact</span></a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
+    <!-- <section class="hero" id="home">
         <div class="container">
             <h1><span data-en="Welcome to 6868 GOLD" data-cn="欢迎来到 6868 GOLD" data-bm="Selamat Datang ke 6868 GOLD">Welcome to 6868 GOLD</span></h1>
             <p><span data-en="Your Trusted Gold Buyer - Best Rates, Instant Payment" data-cn="您值得信赖的黄金买家 - 最优价格，即时付款" data-bm="Pembeli Emas Terpercaya Anda - Harga Terbaik, Bayaran Segera">Your Trusted Gold Buyer - Best Rates, Instant Payment</span></p>
             <a href="#contact" class="cta-button"><span data-en="Contact Us Now" data-cn="立即联系我们" data-bm="Hubungi Kami Sekarang">Contact Us Now</span></a>
         </div>
-    </section>
+    </section> -->
 
     <!-- Gold Rates Section -->
     <section class="rates-section" id="rates">
         <div class="container">
             <h2 class="section-title">
-                <span data-en="Today's Gold Buying Rates" data-cn="今日黄金收购价" data-bm="Harga Belian Emas Hari Ini">Today's Gold Buying Rates</span>
+                <span>- 6 February 2026 -</span>
             </h2>
             <p class="section-subtitle">
-                <span data-en="Competitive prices for all types of gold" data-cn="各类黄金最具竞争力的价格" data-bm="Harga yang kompetitif untuk semua jenis emas">Competitive prices for all types of gold</span>
+                <span >00:45:00</span>
             </p>
             
             <!-- Table First -->
@@ -806,7 +806,7 @@
     </section>
 
     <!-- About Section -->
-    <section class="about-section" id="about">
+    <!-- <section class="about-section" id="about">
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
@@ -842,7 +842,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
