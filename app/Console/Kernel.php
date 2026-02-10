@@ -16,13 +16,15 @@ class Kernel extends ConsoleKernel
     
     protected $commands = [
         //
-	   'App\Console\Commands\DoClosings',
+       'App\Console\Commands\ScrapMsgold',
     ];
 
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('daily:cron')->daily();
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('scrap:msgold')
+            ->everyMinute()
+            ->withoutOverlapping()
+            ->runInBackground();
     }
 
     /**

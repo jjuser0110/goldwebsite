@@ -70,7 +70,7 @@
               <!-- Logo -->
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-text demo h3 mb-0 fw-bold"><img src="{{asset('assets/img/squarelogo.png')}}" style="height:150px" alt="6868 GOLD Logo"></span>
+                  <span class="app-brand-text demo h3 mb-0 fw-bold"><img src="{{asset('assets/img/newlogo.jpg')}}" style="height:150px" alt="6868 GOLD Logo"></span>
                 </a>
               </div>
               <!-- /Logo -->

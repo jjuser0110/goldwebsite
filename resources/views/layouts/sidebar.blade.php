@@ -6,7 +6,7 @@ $currentRoute = request()->route()->getName();
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="{{ route('home') }}" class="app-brand-link">
-            <span class="app-brand-text demo menu-text fw-bold ms-2"><img src="{{asset('assets/img/horizontallogo.png')}}" style="height:40px" alt="6868 GOLD Logo"></span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2"><img src="{{asset('assets/img/longlogo.jpg')}}" style="height:40px" alt="6868 GOLD Logo"></span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -20,26 +20,11 @@ $currentRoute = request()->route()->getName();
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <!-- Dashboards -->
-        <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
-                <div class="badge bg-primary rounded-pill ms-auto">5</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item active">
-                    <a href="{{ route('home') }}" class="menu-link">
-                        <div data-i18n="Analytics">Analytics</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
 
-        <li class="menu-item">
-            <a href="{{ route('bank.index') }}" class="menu-link">
+        <li class="menu-item active">
+            <a href="{{ route('home') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
-                <div>Bank</div>
+                <div>Gold Rate</div>
             </a>
         </li>
     </ul>

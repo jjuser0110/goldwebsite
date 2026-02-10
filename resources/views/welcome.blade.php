@@ -53,13 +53,17 @@
 
         /* Fixed Navigation Bar */
         .navbar {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            /* background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); */
             padding: 1rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-image: url('{{asset("assets/img/background2.jpg")}}');
+            background-size: 110%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .nav-container {
@@ -649,7 +653,7 @@
     <!-- Fixed Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo"><img src="{{asset('assets/img/horizontallogo.png')}}" alt="6868 GOLD Logo"></div>
+            <div class="logo"><img src="{{asset('assets/img/logoonly.png')}}" alt="6868 GOLD Logo"></div>
             <div class="language-switcher">
                 <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
                 <button class="lang-btn" onclick="switchLanguage('cn')">中文</button>
@@ -848,7 +852,7 @@
     <section class="contact-section" id="contact">
         <div class="contact-content">
             <h2><span data-en="Get in Touch" data-cn="联系我们" data-bm="Hubungi Kami">Get in Touch</span></h2>
-            <img src="{{asset('assets/img/squarelogo.png')}}" style="height:100px" alt="6868 GOLD Logo">
+            <img src="{{asset('assets/img/newlogo.jpg')}}" style="height:200px" alt="6868 GOLD Logo">
             <p><span data-en="Ready to sell your gold? Contact us today for the best rates!" data-cn="准备出售您的黄金？立即联系我们获取最优价格！" data-bm="Bersedia untuk menjual emas anda? Hubungi kami hari ini untuk harga terbaik!">Ready to sell your gold? Contact us today for the best rates!</span></p>
             
             <div class="contact-methods">

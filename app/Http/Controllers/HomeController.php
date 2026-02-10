@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Browsershot\Browsershot;
-use App\Models\User;
-use App\Models\Package;
-use App\Models\PackageInvoice;
-use App\Models\BankAccount;
-use App\Models\DailyReport;
+use App\Models\GoldTable;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\DomCrawler\Crawler;
 use Bouncer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -31,8 +29,26 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        
-        return view('home');
+        $goldRates = GoldTable::all();
+        return view('gold_table.index', compact('goldRates'));
+    }
+
+    public function update_additional_value(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'exists:gold_tables,id'],
+            'additional_value' => ['nullable', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid input.'], 400);
+        }
+
+        $goldRate = GoldTable::find($request->id);
+        $goldRate->additional_value = $request->additional_value;
+        $goldRate->new_value = round($goldRate->new_value + $request->additional_value, 2);
+        $goldRate->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Additional value updated successfully.', 'new_value' => $goldRate->new_value]);
     }
 
     public function change_password(Request $request){
@@ -58,5 +74,34 @@ class HomeController extends Controller
         ]);
 
         return redirect()->route('home')->withSuccess('Password changed successfully.');
+    }
+
+    public function test(Request $request){
+        $apiKey = "goldapi-42848smlg8c8xg-io";
+        $symbol = "XAU";
+        $curr = "USD";
+        $date = "/20260210";
+
+        $myHeaders = array(
+            'x-access-token: ' . $apiKey,
+            'Content-Type: application/json'
+        );
+
+        $curl = curl_init();
+
+        $url = "https://www.goldapi.io/api/{$symbol}/{$curr}{$date}";
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTPHEADER => $myHeaders
+        ));
+
+        $response = curl_exec($curl);
+        $error = curl_error($curl);
+
+        curl_close($curl);
+
     }
 }
