@@ -36,7 +36,7 @@ class WelcomeController extends Controller
 
             $latest = DB::table('daily_rates')
                 ->where('type', $type)
-                ->orderByRaw('ABS(TIMESTAMPDIFF(SECOND, datetime, NOW()))')
+                ->orderByRaw('ABS(TIMESTAMPDIFF(SECOND, datetime, NOW())) ASC')
                 ->first();
             $data[$type] = $latest ? $latest->rate : $goldrate;
         }
