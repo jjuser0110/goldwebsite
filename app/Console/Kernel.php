@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('addrate:cron')->everyThirtyMinutes();
-        $schedule->command('getgoldrate:cron')->everySixHours();
+        $schedule->command('addrate:cron')->everyTwoMinutes();
+        $schedule->command('getgoldrate:cron')->everyFiveMinutes();
 
     }
 
