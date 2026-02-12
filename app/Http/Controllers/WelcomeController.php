@@ -39,6 +39,7 @@ class WelcomeController extends Controller
                 ->where('datetime','>=',Carbon::now())
                 ->where('datetime','<',Carbon::now())
                 ->first();
+                dd($latest);
             $data[$type] = $latest ? $latest->rate : $goldrate;
         }
         $now_date = Carbon::now()->format('j F Y');
