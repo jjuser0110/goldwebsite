@@ -38,6 +38,7 @@ class WelcomeController extends Controller
                 ->where('type', $type)
                 ->orderByRaw('ABS(TIMESTAMPDIFF(SECOND, datetime, NOW())) ASC')
                 ->first();
+                dd($latest);
             $data[$type] = $latest ? $latest->rate : $goldrate;
         }
         $now_date = Carbon::now()->format('j F Y');
