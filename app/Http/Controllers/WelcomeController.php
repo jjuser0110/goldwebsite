@@ -34,12 +34,15 @@ class WelcomeController extends Controller
         foreach ($goldTypes as $type) {
             $goldrate = GoldTable::where('type',$type)->first()->new_value??0.00;
 
+            $start = Carbon::now()->subSeconds(5);
+            $end   = Carbon::now();
+    
             $latest = DB::table('daily_rates')
                 ->where('type', $type)
-                ->where('datetime','>=',Carbon::now())
-                ->where('datetime','<',Carbon::now())
+                ->whereBetween('datetime', [$start, $end])
+                ->orderBy('datetime', 'desc') 
                 ->first();
-                dd($latest);
+                
             $data[$type] = $latest ? $latest->rate : $goldrate;
         }
         $now_date = Carbon::now()->format('j F Y');
