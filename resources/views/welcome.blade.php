@@ -938,7 +938,7 @@
                 url: "{{url('getPrices')}}",
                 type: "GET",
                 success: function(response) {
-                    console.log(response.data);
+                    // console.log(response.data);
 
                     $.each(response.data, function(type, dd) {
                         let elem = $("#" + type);
