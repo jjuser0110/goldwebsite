@@ -18,5 +18,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/change_password', [App\Http\Controllers\HomeController::class, 'change_password'])->name('change_password');
-Route::post('/update_additional_value', [App\Http\Controllers\HomeController::class, 'update_additional_value'])->name('update_additional_value');
+Route::post('/update_additional_value', [App\Http\Controllers\HomeController::class, 'update_additional_value'])->name('update_additional_value');// web.php
+Route::get('/getPrices', [App\Http\Controllers\WelcomeController::class, 'getPrices'])->name('getPrices');
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
+Route::get('/test2', [App\Http\Controllers\HomeController::class, 'test2'])->name('test2');

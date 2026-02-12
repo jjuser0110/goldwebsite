@@ -682,10 +682,10 @@
     <section class="rates-section" id="rates">
         <div class="container">
             <h2 class="section-title">
-                <span>- 6 February 2026 -</span>
+                <span id="nowdate">- {{$now_date??''}} -</span>
             </h2>
             <p class="section-subtitle">
-                <span >00:45:00</span>
+                <span id="nowtime">{{$now_time??''}}</span>
             </p>
             
             <!-- Table First -->
@@ -700,43 +700,39 @@
                     <tbody>
                         <tr>
                             <td><strong>PAMP</strong></td>
-                            <td class="price-cell">RM 600.00</td>
+                            <td class="price-cell" id="pamp"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>GOLDBAR</strong></td>
-                            <td class="price-cell">RM 597.00</td>
+                            <td class="price-cell" id="goldbar"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>999 (24K)</strong></td>
-                            <td class="price-cell">RM 585.00</td>
+                            <td class="price-cell" id="gold999"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>950 (23K)</strong></td>
-                            <td class="price-cell">RM 555.00</td>
+                            <td class="price-cell" id="gold950"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>916 (22K)</strong></td>
-                            <td class="price-cell">RM 541.00</td>
+                            <td class="price-cell" id="gold916"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>835 (20K)</strong></td>
-                            <td class="price-cell">RM 477.00</td>
+                            <td class="price-cell" id="gold835"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>750 (18K)</strong></td>
-                            <td class="price-cell">RM 414.00</td>
+                            <td class="price-cell" id="gold750"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>585 (14K)</strong></td>
-                            <td class="price-cell">RM 298.00</td>
+                            <td class="price-cell" id="gold585"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong>375 (9K)</strong></td>
-                            <td class="price-cell">RM 167.00</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Gold Coins/Shield Gold</strong></td>
-                            <td class="price-cell">RM 477.00</td>
+                            <td class="price-cell" id="gold375"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
                             <td><strong><span data-en="Scrap Gold" data-cn="废金" data-bm="Emas Scrap">Scrap Gold</span></strong></td>
@@ -880,7 +876,7 @@
         </div>
     </footer>
 
-    <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-4.0.0.js"></script>
     <script>
         // Language switching functionality
         let currentLang = 'en';
@@ -936,6 +932,43 @@
                 }
             });
         });
+
+        function fetchGoldPrices() {
+            $.ajax({
+                url: "{{url('getPrices')}}",
+                type: "GET",
+                success: function(response) {
+                    console.log(response.data);
+
+                    $.each(response.data, function(type, dd) {
+                        let elem = $("#" + type);
+                        let oldValue = parseFloat(elem.text().replace("RM ", "")); // get old value without "RM "
+                        let newValue = parseFloat(dd).toFixed(2);
+
+                        // Compare old and new values
+                        if (isNaN(oldValue)) {
+                            // If no old value yet, keep black
+                            elem.css("color", "black");
+                        } else if (newValue > oldValue) {
+                            elem.css("color", "green");
+                        } else if (newValue < oldValue) {
+                            elem.css("color", "red");
+                        } else {
+                            elem.css("color", "black");
+                        }
+
+                        // Update text
+                        elem.text("RM " + newValue);
+                    });
+
+                    $("#nowdate").text('- '+response.now_date+' -');
+                    $("#nowtime").text(response.now_time);
+                }
+            });
+        }
+        fetchGoldPrices();
+        setInterval(fetchGoldPrices, 4000);
+
     </script>
 </body>
 </html>

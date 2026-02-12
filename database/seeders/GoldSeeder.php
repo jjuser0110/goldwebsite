@@ -25,6 +25,13 @@ class GoldSeeder extends Seeder
                 'new_value'=>'2026-02-05 12:50:57',
             ],
             [
+                'type'=>'usd',
+                'value'=>4.005,
+                'purities'=>null,
+                'additional_value'=>0,
+                'new_value'=>4.005,
+            ],
+            [
                 'type'=>'pamp',
                 'value'=>600.00,
                 'purities'=>999.9,
