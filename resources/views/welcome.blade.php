@@ -236,7 +236,7 @@
 
         /* Rates Section */
         .rates-section {
-            padding: 5rem 1rem;
+            padding: 5rem 1rem 1rem 1rem;
             background-color: #f8f8f8;
         }
 
@@ -661,10 +661,22 @@
             </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
-                <!-- <li ><a href="#home"><span data-en="Home" data-cn="首页" data-bm="Laman Utama">Home</span></a></li> -->
-                <li ><a href="#rates"><span data-en="Gold Rates" data-cn="黄金价格" data-bm="Harga Emas">Gold Rates</span></a></li>
-                <!-- <li ><a href="#about"><span data-en="About Us" data-cn="关于我们" data-bm="Tentang Kami">About Us</span></a></li> -->
-                <li ><a href="#contact"><span data-en="Contact" data-cn="联系" data-bm="Hubungi">Contact</span></a></li>
+                <li>
+                    <a href="weixin://dl/chat?Emas-6868">
+                        <span data-en="Wechat" data-cn="Wechat" data-bm="Wechat">
+                            Wechat
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://wa.me/60183156868" target="_blank">
+                        <span data-en="Whatsapp" data-cn="Whatsapp" data-bm="Whatsapp">
+                            Whatsapp
+                        </span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>
@@ -707,37 +719,37 @@
                             <td class="price-cell" id="goldbar"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>999 (24K)</strong></td>
+                            <td><strong>999</strong></td>
                             <td class="price-cell" id="gold999"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>950 (23K)</strong></td>
+                            <td><strong>950</strong></td>
                             <td class="price-cell" id="gold950"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>916 (22K)</strong></td>
+                            <td><strong>916</strong></td>
                             <td class="price-cell" id="gold916"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>835 (20K)</strong></td>
+                            <td><strong>835</strong></td>
                             <td class="price-cell" id="gold835"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>750 (18K)</strong></td>
+                            <td><strong>750</strong></td>
                             <td class="price-cell" id="gold750"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>585 (14K)</strong></td>
+                            <td><strong>585</strong></td>
                             <td class="price-cell" id="gold585"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>375 (9K)</strong></td>
+                            <td><strong>375</strong></td>
                             <td class="price-cell" id="gold375"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td><strong><span data-en="Scrap Gold" data-cn="废金" data-bm="Emas Scrap">Scrap Gold</span></strong></td>
                             <td class="price-cell"><span data-en="Contact Us" data-cn="联系我们" data-bm="Hubungi Kami">Contact Us</span></td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -845,7 +857,7 @@
     </section> -->
 
     <!-- Contact Section -->
-    <section class="contact-section" id="contact">
+    <!-- <section class="contact-section" id="contact">
         <div class="contact-content">
             <h2><span data-en="Get in Touch" data-cn="联系我们" data-bm="Hubungi Kami">Get in Touch</span></h2>
             <img src="{{asset('assets/img/newlogo.jpg')}}" style="height:200px" alt="6868 GOLD Logo">
@@ -866,7 +878,7 @@
                 <a href="#rates" class="cta-button"><span data-en="View Our Rates" data-cn="查看我们的价格" data-bm="Lihat Harga Kami">View Our Rates</span></a>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Footer -->
     <footer class="footer">
