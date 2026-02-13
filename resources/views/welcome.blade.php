@@ -662,7 +662,7 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
                 <li>
-                    <a href="weixin://dl/chat?Emas-6868">
+                    <a href="weixin://dl/chat/LPPL-96" target="_blank">
                         <span data-en="Wechat" data-cn="Wechat" data-bm="Wechat">
                             Wechat
                         </span>
