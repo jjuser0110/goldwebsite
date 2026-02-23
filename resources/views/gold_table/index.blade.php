@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('content')
+<style>
+.editvalue{
+    width: 100px;
+    border: 1px solid #ccc;
+}
+</style>
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -9,7 +15,9 @@
         <div class="card">
             <div class="card-header flex-column flex-md-row">
                 <div class="head-label">
-                    <h5 class="card-title mb-0">Gold Listing</h5>
+                    <h5 class="card-title mb-0">Gold Listing
+                    </h5>
+                        {{ $goldRates->where('type', 'datetime')->first()->value ?? '' }}
                 </div>
             </div>
             <div class="card-datatable text-nowrap">
@@ -17,25 +25,31 @@
                     <thead>
                         <tr>
                             <th>Type</th>
+                            <th>Purity</th>
                             <th>Value</th>
-                            <th>Additional Value</th>
+                            <th>Add Value</th>
                             <th>Water Level</th>
                             <th>New Value</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($goldRates as $row)
+                        @foreach($goldRates->where('type', '!=', 'datetime') as $row)
                         <tr>
                             <td>{{$row->type??""}}</td>
+                            <td>{{$row->purities??""}}</td>
+                            @if($row->type == 'usd')
+                            <td>{{number_format($row->value, 4)??""}}</td>
+                            @else
                             <td>{{$row->value??""}}</td>
+                            @endif
                             <td>
                                 @if($row->type != 'datetime')
-                                <input type="text" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
+                                <input type="text" class="editvalue" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
                                 @endif
                             </td>
                             <td>
                                 @if($row->type != 'datetime' && $row->type != 'usd')
-                                <input type="text" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
+                                <input type="text" class="editvalue" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
                                 @endif
                             </td>
                             <td id="new_value_{{$row->id}}">{{$row->new_value??""}}</td>
