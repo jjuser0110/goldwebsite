@@ -49,7 +49,11 @@ class HomeController extends Controller
         $goldRate = GoldTable::find($request->id);
         $additional_value = $request->additional_value;
         $water_level = $request->water_level;
-        $new_value = round(($goldRate->value + $additional_value) * $water_level, 4);
+        if($goldRate->type == 'usd'){
+            $new_value = round($goldRate->value+$additional_value,4);
+        }else{
+            $new_value = round(($goldRate->value + $additional_value) * $water_level, 2);
+        }
         $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value]);
 
         
