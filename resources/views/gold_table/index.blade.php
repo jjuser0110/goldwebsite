@@ -38,7 +38,7 @@
                             @if($row->type == 'usd')
                             <td>{{number_format($row->value, 4)??""}}</td>
                             @else
-                            <td>{{$row->value??""}}</td>
+                            <td>{{number_format($row->value, 2)??""}}</td>
                             @endif
                             <td>
                                 @if($row->type != 'datetime')
