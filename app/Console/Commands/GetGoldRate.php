@@ -67,7 +67,8 @@ class GetGoldRate extends Command
                     $getUsd = GoldTable::where('type','usd')->first();
                     $value = round($xauToUsd/31.1035*$getUsd->new_value*$gold->purities/1000,2);
                     $additional_value = $gold->additional_value;
-                    $new_value = round($value+$additional_value,2);
+                    $water_level = $gold->water_level;
+                    $new_value = round($value+$additional_value*$water_level,2);
 
 
                     DailyRate::where('type',$gold->type)->delete();
