@@ -41,6 +41,7 @@ class WelcomeController extends Controller
                 ->where('type', $type)
                 ->whereBetween('datetime', [$start, $end])
                 ->orderBy('datetime', 'desc') 
+                ->whereNull('deleted_at')
                 ->first();
                 
             $data[$type] = $latest ? $latest->rate : $goldrate;
