@@ -50,7 +50,12 @@
                                 <input type="text" class="editvalue" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
                                 @endif
                             </td>
+                            
+                            @if($row->type == 'usd')
+                            <td id="new_value_{{$row->id}}">{{number_format($row->new_value, 4)??""}}</td>
+                            @else
                             <td id="new_value_{{$row->id}}">{{number_format($row->new_value, 2)??""}}</td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
