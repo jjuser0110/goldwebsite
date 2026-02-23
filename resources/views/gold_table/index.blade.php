@@ -25,7 +25,6 @@
                     <thead>
                         <tr>
                             <th>Type</th>
-                            <th>Purity</th>
                             <th>Value</th>
                             <th>Add Value</th>
                             <th>Water Level</th>
@@ -36,7 +35,6 @@
                         @foreach($goldRates->where('type', '!=', 'datetime') as $row)
                         <tr>
                             <td>{{$row->type??""}}</td>
-                            <td>{{$row->purities??""}}</td>
                             @if($row->type == 'usd')
                             <td>{{number_format($row->value, 4)??""}}</td>
                             @else
