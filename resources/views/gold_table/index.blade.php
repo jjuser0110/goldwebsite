@@ -19,6 +19,7 @@
                             <th>Type</th>
                             <th>Value</th>
                             <th>Additional Value</th>
+                            <th>Water Level</th>
                             <th>New Value</th>
                         </tr>
                     </thead>
@@ -29,7 +30,12 @@
                             <td>{{$row->value??""}}</td>
                             <td>
                                 @if($row->type != 'datetime')
-                                <input type="text" class="form-control" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
+                                <input type="text" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
+                                @endif
+                            </td>
+                            <td>
+                                @if($row->type != 'datetime' && $row->type != 'usd')
+                                <input type="text" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
                                 @endif
                             </td>
                             <td id="new_value_{{$row->id}}">{{$row->new_value??""}}</td>
@@ -59,13 +65,15 @@
     });
     function saveData(id){
         var additional_value = $('#additional_value_'+id).val();
+        var water_level = $('#water_level_'+id).val();
         $.ajax({
             url: '{{ route("update_additional_value") }}',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
                 id: id,
-                additional_value: additional_value
+                additional_value: additional_value,
+                water_level: water_level
             },
             success: function(response) {
                 if(response.status == 'success'){

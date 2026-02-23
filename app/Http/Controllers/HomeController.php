@@ -39,6 +39,7 @@ class HomeController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'exists:gold_tables,id'],
             'additional_value' => ['nullable', 'numeric'],
+            'water_level' => ['nullable', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -47,8 +48,9 @@ class HomeController extends Controller
 
         $goldRate = GoldTable::find($request->id);
         $additional_value = $request->additional_value;
-        $new_value = round($goldRate->value + $request->additional_value, 4);
-        $goldRate->update(['additional_value'=>$additional_value,'new_value'=>$new_value]);
+        $water_level = $request->water_level;
+        $new_value = round(($goldRate->value + $additional_value) * $water_level, 4);
+        $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value]);
 
         
         DailyRate::where('type',$goldRate->type)->delete();

@@ -17,5 +17,6 @@ class GoldTable extends Model
         'additional_value',
         'new_value',
         'purities',
+        'water_level',
     ];
 }

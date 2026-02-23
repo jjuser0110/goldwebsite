@@ -15,9 +15,9 @@
     <meta name="author" content="6868 GOLD">
 
     <!-- Favicon / App Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/horizontallogo.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/img/horizontallogo.png')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/img/horizontallogo.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/img/logoonly.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/img/logoonly.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/img/logoonly.png')}}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -49,6 +49,11 @@
             color: #333;
             background-color: #ffffff;
             overflow-x: hidden;
+
+            /* ADD THESE 3 LINES */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Fixed Navigation Bar */
@@ -238,6 +243,7 @@
         .rates-section {
             padding: 5rem 1rem 1rem 1rem;
             background-color: #f8f8f8;
+            flex: 1;
         }
 
         .section-title {
@@ -539,14 +545,8 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
+            .nav-container { padding: 0 1rem; }
+            .mobile-menu-btn { display: block; }
 
             .nav-menu {
                 display: none;
@@ -560,15 +560,9 @@
                 gap: 0;
                 order: 5;
             }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .nav-menu a {
-                padding: 1rem 2rem;
-                /* border-bottom: 1px solid #333; */
-            }
+            .nav-menu.active { display: flex; }
+            .nav-menu a { padding: 1rem 2rem; }
+            .nav-menu li { padding: 12px 20px; }
 
             .language-switcher {
                 order: 2;
@@ -576,76 +570,33 @@
                 margin-right: 1rem;
             }
 
-            .hero {
-                padding: 100px 1rem 60px;
-            }
+            .hero { padding: 100px 1rem 60px; }
+            .hero h1 { font-size: 1.8rem; } /* ← was 3rem, now fits mobile */
+            .hero p { font-size: 1rem; }
 
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .rates-grid {
-                grid-template-columns: 1fr;
-            }
+            .section-title { font-size: 1.5rem; }
+            .section-subtitle { font-size: 0.95rem; }
 
             .rates-table th,
-            .rates-table td {
-                padding: 0.6rem;
-                font-size: 1rem;
-            }
+            .rates-table td { padding: 0.8rem 1rem; font-size: 1rem; }
+            .rates-table th { font-size: 1rem; }
+            .price-cell { font-size: 1.2rem; }
 
-            .rates-table th {
-                font-size: 1.1rem;
-            }
-
-            .price-cell {
-                font-size: 1.2rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-methods {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-            .nav-menu li {
-                padding: 12px 20px;
-            }
+            .about-content { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .contact-methods { flex-direction: column; align-items: center; }
+            .rates-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
-            .logo {
-                font-size: 1.4rem;
-            }
-
-            .cta-button {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
-            }
+            .hero h1 { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; }
 
             .rates-table th,
-            .rates-table td {
-                padding: 0.4rem;
-                font-size: 0.95rem;
-            }
+            .rates-table td { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
+            .price-cell { font-size: 1.1rem; }
 
-            .rates-table tbody td:first-child::before {
-                margin-right: 0.3rem;
-            }
+            .rates-table tbody td:first-child::before { margin-right: 0.3rem; }
         }
     </style>
 </head>
@@ -680,15 +631,6 @@
             </ul>
         </div>
     </nav>
-
-    <!-- Hero Section -->
-    <!-- <section class="hero" id="home">
-        <div class="container">
-            <h1><span data-en="Welcome to 6868 GOLD" data-cn="欢迎来到 6868 GOLD" data-bm="Selamat Datang ke 6868 GOLD">Welcome to 6868 GOLD</span></h1>
-            <p><span data-en="Your Trusted Gold Buyer - Best Rates, Instant Payment" data-cn="您值得信赖的黄金买家 - 最优价格，即时付款" data-bm="Pembeli Emas Terpercaya Anda - Harga Terbaik, Bayaran Segera">Your Trusted Gold Buyer - Best Rates, Instant Payment</span></p>
-            <a href="#contact" class="cta-button"><span data-en="Contact Us Now" data-cn="立即联系我们" data-bm="Hubungi Kami Sekarang">Contact Us Now</span></a>
-        </div>
-    </section> -->
 
     <!-- Gold Rates Section -->
     <section class="rates-section" id="rates">
@@ -746,139 +688,13 @@
                             <td><strong>375</strong></td>
                             <td class="price-cell" id="gold375"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
-                        <!-- <tr>
-                            <td><strong><span data-en="Scrap Gold" data-cn="废金" data-bm="Emas Scrap">Scrap Gold</span></strong></td>
-                            <td class="price-cell"><span data-en="Contact Us" data-cn="联系我们" data-bm="Hubungi Kami">Contact Us</span></td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Rate Cards After Table -->
-            <!-- <div class="rates-grid">
-                <div class="rate-card">
-                    <h3><span data-en="Pure Gold" data-cn="纯金" data-bm="Emas Tulen">Pure Gold</span></h3>
-                    <div class="karat-info">999 / 24K</div>
-                    <div class="price">
-                        RM 600.00
-                        <span class="price-unit" data-en="per gram" data-cn="每克" data-bm="per gram">per gram</span>
-                    </div>
-                </div>
-
-                <div class="rate-card">
-                    <h3><span data-en="High Purity Gold" data-cn="高纯度金" data-bm="Emas Ketulenan Tinggi">High Purity Gold</span></h3>
-                    <div class="karat-info">916 / 22K</div>
-                    <div class="price">
-                        RM 541.00
-                        <span class="price-unit" data-en="per gram" data-cn="每克" data-bm="per gram">per gram</span>
-                    </div>
-                </div>
-
-                <div class="rate-card">
-                    <h3><span data-en="Standard Gold" data-cn="标准金" data-bm="Emas Standard">Standard Gold</span></h3>
-                    <div class="karat-info">750 / 18K</div>
-                    <div class="price">
-                        RM 414.00
-                        <span class="price-unit" data-en="per gram" data-cn="每克" data-bm="per gram">per gram</span>
-                    </div>
-                </div>
-
-                <div class="rate-card">
-                    <h3><span data-en="Lower Karat Gold" data-cn="低K金" data-bm="Emas Karat Rendah">Lower Karat Gold</span></h3>
-                    <div class="karat-info">585 / 14K</div>
-                    <div class="price">
-                        RM 298.00
-                        <span class="price-unit" data-en="per gram" data-cn="每克" data-bm="per gram">per gram</span>
-                    </div>
-                </div>
-
-                <div class="rate-card">
-                    <h3><span data-en="Classic Gold" data-cn="经典金" data-bm="Emas Klasik">Classic Gold</span></h3>
-                    <div class="karat-info">375 / 9K</div>
-                    <div class="price">
-                        RM 167.00
-                        <span class="price-unit" data-en="per gram" data-cn="每克" data-bm="per gram">per gram</span>
-                    </div>
-                </div>
-
-                <div class="rate-card">
-                    <h3><span data-en="Scrap Gold" data-cn="废金" data-bm="Emas Scrap">Scrap Gold</span></h3>
-                    <div class="karat-info"><span data-en="Various Purity" data-cn="各种纯度" data-bm="Pelbagai Ketulenan">Various Purity</span></div>
-                    <div class="price">
-                        <span data-en="Contact Us" data-cn="联系我们" data-bm="Hubungi Kami">Contact Us</span>
-                        <span class="price-unit" data-en="for best quote" data-cn="获取最佳报价" data-bm="untuk sebut harga terbaik">for best quote</span>
-                    </div>
-                </div>
-            </div> -->
-
-            <div class="update-notice">
-                <span data-en="Rates updated daily. Contact us for the latest prices and special offers." data-cn="价格每日更新。联系我们获取最新价格和特别优惠。" data-bm="Harga dikemaskini setiap hari. Hubungi kami untuk harga terkini dan tawaran istimewa.">Rates updated daily. Contact us for the latest prices and special offers.</span>
-            </div>
+            
         </div>
     </section>
-
-    <!-- About Section -->
-    <!-- <section class="about-section" id="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2><span data-en="Why Choose 6868 GOLD?" data-cn="为什么选择 6868 GOLD？" data-bm="Mengapa Pilih 6868 GOLD?">Why Choose 6868 GOLD?</span></h2>
-                    <p><span data-en="We are a professional gold buying company committed to providing the best rates and most transparent service in the market. With years of experience, we've built our reputation on trust, fairness, and customer satisfaction." data-cn="我们是一家专业的黄金收购公司，致力于提供市场上最优惠的价格和最透明的服务。凭借多年经验，我们建立了信任、公平和客户满意度的声誉。" data-bm="Kami adalah syarikat pembelian emas profesional yang komited untuk menyediakan harga terbaik dan perkhidmatan yang paling telus di pasaran. Dengan pengalaman bertahun-tahun, kami telah membina reputasi atas kepercayaan, keadilan, dan kepuasan pelanggan.">We are a professional gold buying company committed to providing the best rates and most transparent service in the market. With years of experience, we've built our reputation on trust, fairness, and customer satisfaction.</span></p>
-                    <p><span data-en="Whether you're selling jewelry, ornaments, or scrap gold, we ensure you get the best value for your precious metal." data-cn="无论您是出售珠宝、饰品还是废金，我们都确保您的贵金属获得最佳价值。" data-bm="Sama ada anda menjual barang kemas, perhiasan, atau emas scrap, kami memastikan anda mendapat nilai terbaik untuk logam berharga anda.">Whether you're selling jewelry, ornaments, or scrap gold, we ensure you get the best value for your precious metal.</span></p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="Best Market Rates" data-cn="最优市场价格" data-bm="Harga Pasaran Terbaik">Best Market Rates</span></div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="Instant Payment" data-cn="即时付款" data-bm="Bayaran Segera">Instant Payment</span></div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="Professional Service" data-cn="专业服务" data-bm="Perkhidmatan Profesional">Professional Service</span></div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="Transparent Process" data-cn="透明流程" data-bm="Proses Telus">Transparent Process</span></div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="Licensed & Trusted" data-cn="持牌可信" data-bm="Berlesen & Dipercayai">Licensed & Trusted</span></div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text"><span data-en="No Hidden Charges" data-cn="无隐藏费用" data-bm="Tiada Caj Tersembunyi">No Hidden Charges</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-    <!-- Contact Section -->
-    <!-- <section class="contact-section" id="contact">
-        <div class="contact-content">
-            <h2><span data-en="Get in Touch" data-cn="联系我们" data-bm="Hubungi Kami">Get in Touch</span></h2>
-            <img src="{{asset('assets/img/newlogo.jpg')}}" style="height:200px" alt="6868 GOLD Logo">
-            <p><span data-en="Ready to sell your gold? Contact us today for the best rates!" data-cn="准备出售您的黄金？立即联系我们获取最优价格！" data-bm="Bersedia untuk menjual emas anda? Hubungi kami hari ini untuk harga terbaik!">Ready to sell your gold? Contact us today for the best rates!</span></p>
-            
-            <div class="contact-methods">
-                <div class="contact-item">
-                    <h3>📱 WhatsApp</h3>
-                    <a href="https://wa.me/60165727011" target="_blank">+6016-572 7011</a>
-                </div>
-                <div class="contact-item">
-                    <h3>📞 <span data-en="Phone" data-cn="电话" data-bm="Telefon">Phone</span></h3>
-                    <a href="tel:+60165727011">+6016-572 7011</a>
-                </div>
-            </div>
-            
-            <div style="margin-top: 3rem;">
-                <a href="#rates" class="cta-button"><span data-en="View Our Rates" data-cn="查看我们的价格" data-bm="Lihat Harga Kami">View Our Rates</span></a>
-            </div>
-        </div>
-    </section> -->
 
     <!-- Footer -->
     <footer class="footer">
