@@ -50,7 +50,7 @@
                                 <input type="text" class="editvalue" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
                                 @endif
                             </td>
-                            <td id="new_value_{{$row->id}}">{{$row->new_value??""}}</td>
+                            <td id="new_value_{{$row->id}}">{{number_format($row->new_value, 2)??""}}</td>
                         </tr>
                         @endforeach
                     </tbody>
