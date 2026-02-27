@@ -15,7 +15,7 @@ class RateController extends Controller
 {
     public function index(Request $request)
     {
-        $rate = RateTable::all();
+        $rate = RateTable::orderBy('datetime', 'desc')->get();
 
         return view('rate.index')->with('rate',$rate);
     }
