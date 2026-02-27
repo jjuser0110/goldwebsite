@@ -26,8 +26,8 @@
                         <tr>
                             <th>Type</th>
                             <th>Value</th>
-                            <th>Add Value</th>
                             <th>Water Level</th>
+                            <th>Add Value</th>
                             <th>New Value</th>
                         </tr>
                     </thead>
@@ -41,13 +41,13 @@
                             <td>{{number_format($row->value, 2)??""}}</td>
                             @endif
                             <td>
-                                @if($row->type != 'datetime')
-                                <input type="text" class="editvalue" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
+                                @if($row->type != 'datetime' && $row->type != 'usd')
+                                <input type="text" class="editvalue" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
                                 @endif
                             </td>
                             <td>
-                                @if($row->type != 'datetime' && $row->type != 'usd')
-                                <input type="text" class="editvalue" name="water_level" value="{{$row->water_level??''}}" onchange="saveData({{$row->id}})" id="water_level_{{$row->id}}" />
+                                @if($row->type != 'datetime')
+                                <input type="text" class="editvalue" name="additional_value" value="{{$row->additional_value??''}}" onchange="saveData({{$row->id}})" id="additional_value_{{$row->id}}" />
                                 @endif
                             </td>
                             
