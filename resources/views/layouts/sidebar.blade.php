@@ -27,6 +27,13 @@ $currentRoute = request()->route()->getName();
                 <div>Gold Rate</div>
             </a>
         </li>
+
+        <li class="menu-item active">
+            <a href="{{ route('rate.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-grid"></i>
+                <div>Rate</div>
+            </a>
+        </li>
     </ul>
 </aside>
 <!-- end: sidebar -->
