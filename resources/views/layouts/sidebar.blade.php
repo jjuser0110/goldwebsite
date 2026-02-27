@@ -21,14 +21,14 @@ $currentRoute = request()->route()->getName();
 
     <ul class="menu-inner py-1">
 
-        <li class="menu-item active">
+        <li class="menu-item {{ $currentRoute == 'home' ? 'active' : '' }}">
             <a href="{{ route('home') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
                 <div>Gold Rate</div>
             </a>
         </li>
 
-        <li class="menu-item active">
+        <li class="menu-item {{ $currentRoute == 'rate.index' ? 'active' : '' }}">
             <a href="{{ route('rate.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-grid"></i>
                 <div>Rate</div>
