@@ -17,9 +17,10 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('addrate:cron')->everyThirtyMinutes();
         // $schedule->command('getgoldrate:cron')->everySixHours();
-        $schedule->command('getgoldrate:cron')->dailyAt('09:30');
-        $schedule->command('getgoldrate:cron')->dailyAt('15:30');
-        $schedule->command('getgoldrate:cron')->dailyAt('21:30');
+        $schedule->command('getgoldrate:cron')->dailyAt('10:00');
+        $schedule->command('getgoldrate:cron')->dailyAt('12:00');
+        $schedule->command('getgoldrate:cron')->dailyAt('15:00');
+        $schedule->command('getgoldrate:cron')->dailyAt('17:00');
 
     }
 
