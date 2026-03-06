@@ -52,7 +52,7 @@ class HomeController extends Controller
         if($goldRate->type == 'usd'){
             $new_value = round($goldRate->value+$additional_value,4);
         }else{
-            $new_value = round(($goldRate->value * $water_level) + $additional_value, 2);
+            $new_value = round(($goldRate->value + $additional_value) * $water_level, 2);
         }
         $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value]);
 
