@@ -69,6 +69,14 @@ class GetGoldRateFromCHGold extends Command
                 $this->updateGoldRate($type, $buyPrice);
             }
         }
+        
+        $datetime = GoldTable::where('type', 'datetime')->first();
+        if(isset($datetime)){
+            $datetime->update([
+                'value' => Carbon::now(),
+                'new_value' => Carbon::now(),
+            ]);
+        }
     }
 
     private function updateGoldRate($type, $buyPrice)
