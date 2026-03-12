@@ -135,68 +135,36 @@ class HomeController extends Controller
     }
 
     public function test(Request $request){
-        $response = Http::get('https://metals-api.com/api/latest', [
-            'access_key' => 'w83gkfza91725ug8t597wvrsqh3z7xatd4udl6i6m8n4n2kajhr9mupmlolb',
-            'base' => 'USD',
-            'symbols' => 'XAU,MYR'
-        ]);
-
-        if (!$response->successful()) {
-            $this->error('Metals-API request failed');
-            return;
-        }
+        
+        $response = Http::withHeaders([
+            'Authorization' => 'Basic ZDc3ZDAwNzAwYmM3OTM5MmY2OGZhMWI3YTc3MDVhZjY1MjIwNzEwZTIwYTQ1NzIyNTExZjZkYzBjMjY4MzkxNzpZMmhuYjJ4a1gyRmtiV2x1T21Ob1oyOXNaRjl3WVhOemQyOXlaQT09'
+        ])->get(
+            'https://api-srs.chgold.com.my/goldPrice/chGetGoldPrices',
+            [
+                'symbolArr' => [
+                    '999.9',
+                    '999',
+                    '965',
+                    '916',
+                    '835',
+                    '750',
+                    '585',
+                    '375',
+                    'qian_jin'
+                ]
+            ]
+        );
 
         $data = $response->json();
 
-        $usdToMyr = $data['rates']['MYR'];
-        $usdToXau = $data['rates']['XAU'];
+        foreach($data['data'] as $d){
+            $purity = $d['purity'];
+            $buyPrice = $d['buyPrice'];
 
-        $xauToUsd = 1 / $usdToXau;
+            dump($purity, $buyPrice,'-----------------');
 
-        $savetoTable = RateTable::create([
-            'datetime'=>Carbon::now(),
-            'usdtomyr'=>$usdToMyr,
-            'xautousd'=>$xauToUsd
-        ]);
-        
-        $allGold = GoldTable::all();
-        foreach($allGold as $gold){
-            switch ($gold->type) {
-                case "datetime":
-                    $value = Carbon::now();
-                    $additional_value = null;
-                    $new_value = Carbon::now();
-                    break;
-
-                case 'usd':
-                    $value = $usdToMyr;
-                    $additional_value = $gold->additional_value;
-                    $new_value = round($value+$additional_value,4);
-                    break;
-
-                case 'pamp':
-                case 'goldbar':
-                case 'gold999':
-                case 'gold950':    
-                case 'gold916':    
-                case 'gold835':    
-                case 'gold750':    
-                case 'gold585':    
-                case 'gold375':    
-                    $getUsd = GoldTable::where('type','usd')->first();
-                    $value = round($xauToUsd/31.1035*$getUsd->new_value*$gold->purities/1000,2);
-                    $additional_value = $gold->additional_value;
-                    $new_value = round($value+$additional_value,2);
-                    break;
-
-                default:
-                break;
-            }
-            $gold->update([
-                'value'=>$value,
-                'new_value'=>$new_value,
-            ]);
         }
+        dd($data);
     }
 
     public function test2(Request $request){
