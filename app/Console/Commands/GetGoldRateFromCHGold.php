@@ -43,13 +43,13 @@ class GetGoldRateFromCHGold extends Command
 
         $map = [
             '999.9' => ['pamp', 'goldbar'],
-            '999'   => ['gold999'],
-            '965'   => ['gold950'],
-            '916'   => ['gold916'],
-            '835'   => ['gold835'],
-            '750'   => ['gold750'],
-            '585'   => ['gold585'],
-            '375'   => ['gold375']
+            '999'   => ['gold999','gold950','gold916','gold835','gold750','gold585','gold375'],
+            // '965'   => ['gold950'],
+            // '916'   => ['gold916'],
+            // '835'   => ['gold835'],
+            // '750'   => ['gold750'],
+            // '585'   => ['gold585'],
+            // '375'   => ['gold375']
         ];
 
         foreach ($data['data'] as $d) {
