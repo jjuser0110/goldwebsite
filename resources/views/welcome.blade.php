@@ -653,40 +653,52 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>PAMP</strong></td>
+                            <td><strong id="pamp_name">PAMP</strong></td>
                             <td class="price-cell" id="pamp"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>GOLDBAR</strong></td>
+                            <td><strong id="goldbar_name">GOLDBAR</strong></td>
                             <td class="price-cell" id="goldbar"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>999</strong></td>
+                            <td><strong id="gold999_name">999</strong></td>
                             <td class="price-cell" id="gold999"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>950</strong></td>
+                            <td><strong id="gold950_name">950</strong></td>
                             <td class="price-cell" id="gold950"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>916</strong></td>
+                            <td><strong id="gold916_name">916</strong></td>
                             <td class="price-cell" id="gold916"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>835</strong></td>
+                            <td><strong id="gold835_name">835</strong></td>
                             <td class="price-cell" id="gold835"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>750</strong></td>
+                            <td><strong id="gold750_name">750</strong></td>
                             <td class="price-cell" id="gold750"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>585</strong></td>
+                            <td><strong id="gold585_name">585</strong></td>
                             <td class="price-cell" id="gold585"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                         <tr>
-                            <td><strong>375</strong></td>
+                            <td><strong id="gold375_name">375</strong></td>
                             <td class="price-cell" id="gold375"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
+                        </tr>
+                        <tr>
+                            <td><strong id="type1_name">Type 1</strong></td>
+                            <td class="price-cell" id="type1"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
+                        </tr>
+                        <tr>
+                            <td><strong id="type2_name">Type 2</strong></td>
+                            <td class="price-cell" id="type2"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
+                        </tr>
+                        <tr>
+                            <td><strong id="type3_name">Type 3</strong></td>
+                            <td class="price-cell" id="type3"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
                     </tbody>
                 </table>
@@ -769,9 +781,12 @@
                     // console.log(response.data);
 
                     $.each(response.data, function(type, dd) {
+                        // console.log(type,dd);
                         let elem = $("#" + type);
+                        let showname = $("#" + type+"_name");
                         let oldValue = parseFloat(elem.text().replace("RM ", "")); // get old value without "RM "
                         let newValue = parseFloat(dd).toFixed(2);
+                        let newName = response.name[type] || type;
 
                         // Compare old and new values
                         if (isNaN(oldValue)) {
@@ -787,6 +802,9 @@
 
                         // Update text
                         elem.text("RM " + newValue);
+                        if (showname.length) {
+                            showname.text(newName);
+                        }
                     });
 
                     $("#nowdate").text('- '+response.now_date+' -');

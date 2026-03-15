@@ -26,10 +26,11 @@ class WelcomeController extends Controller
     public function getPrices(Request $request){
         $goldTypes = [
             'pamp','goldbar','gold999','gold950',
-            'gold916','gold835','gold750','gold585','gold375'
+            'gold916','gold835','gold750','gold585','gold375','type1','type2','type3'
         ];
 
         $data = [];
+        $name = [];
 
         foreach ($goldTypes as $type) {
             $goldrate = GoldTable::where('type',$type)->first()->new_value??0.00;
@@ -45,15 +46,17 @@ class WelcomeController extends Controller
                 ->first();
                 
             $data[$type] = $latest ? $latest->rate : $goldrate;
+            $name[$type] = GoldTable::where('type',$type)->first()->show_name??$type;
         }
         $now_date = Carbon::now()->format('j F Y');
         $now_time = Carbon::now()->format('H:i:s');
-
+        // dd($data);
         return response()->json([
             'status' => true,
             'now_date' => $now_date,
             'now_time' => $now_time,
-            'data' => $data
+            'data' => $data,
+            'name' => $name,
         ]);
     }
 

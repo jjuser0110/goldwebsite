@@ -5,6 +5,10 @@
     width: 100px;
     border: 1px solid #ccc;
 }
+.editnamevalue{
+    width: 200px;
+    border: 1px solid #ccc;
+}
 </style>
     <!-- Content -->
 
@@ -25,6 +29,7 @@
                     <thead>
                         <tr>
                             <th>Type</th>
+                            <th>Name</th>
                             <th>Value</th>
                             <th>Water Level</th>
                             <th>Add Value</th>
@@ -35,6 +40,7 @@
                         @foreach($goldRates->where('type', '!=', 'datetime') as $row)
                         <tr>
                             <td>{{$row->type??""}}</td>
+                            <td><input type="text" class="editnamevalue" name="show_name" value="{{$row->show_name??""}}" onchange="saveData({{$row->id}})" id="show_name_{{$row->id}}" /></td>
                             @if($row->type == 'usd')
                             <td>{{number_format($row->value, 4)??""}}</td>
                             @else
@@ -74,13 +80,14 @@
     $(function(){
         var table = $('#mytable').DataTable({
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            pageLength: 10,
+            pageLength: 20,
             displayLength: 5,
             ordering:false,
-            lengthMenu: [5, 10, 25, 50, 75, 100],
+            lengthMenu: [20, 25, 50, 75, 100]
         });
     });
     function saveData(id){
+        var show_name = $('#show_name_'+id).val();
         var additional_value = $('#additional_value_'+id).val();
         var water_level = $('#water_level_'+id).val();
         $.ajax({
@@ -89,6 +96,7 @@
             data: {
                 _token: '{{ csrf_token() }}',
                 id: id,
+                show_name: show_name,
                 additional_value: additional_value,
                 water_level: water_level
             },

@@ -13,6 +13,7 @@ class GoldTable extends Model
 
     protected $fillable = [
         'type',
+        'show_name',
         'value',
         'additional_value',
         'new_value',

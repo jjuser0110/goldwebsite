@@ -54,7 +54,7 @@ class HomeController extends Controller
         }else{
             $new_value = round(($goldRate->value + $additional_value) * $water_level, 2);
         }
-        $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value]);
+        $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value,'show_name'=>$request->show_name]);
 
         
         DailyRate::where('type',$goldRate->type)->delete();
