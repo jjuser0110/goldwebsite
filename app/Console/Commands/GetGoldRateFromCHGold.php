@@ -97,7 +97,7 @@ class GetGoldRateFromCHGold extends Command
             'value' => $value,
             'new_value' => $new_value,
         ]);
-        DailyRate::where('type', $type)->delete();
+        DailyRate::where('type', $type)->forceDelete();
 
         $startTime = Carbon::now();
         $endTime = $startTime->copy()->addMinutes(2);
