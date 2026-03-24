@@ -807,8 +807,7 @@
                         }
                     });
 
-                    document.getElementById('nowdate').innerHTML =
-                        "- {{ $now_date ?? '' }} <span style='font-weight:normal'>" + timeString + "</span> -";
+                    $("#nowdate").text('- '+response.now_date+' '+response.now_time+' -');
                     
                 }
             });
@@ -831,7 +830,7 @@
 
             // Update time (keep your date from Blade)
             document.getElementById('nowdate').innerHTML =
-                "- {{ $now_date ?? '' }} <span style='font-weight:normal'>" + timeString + "</span> -";
+                "- {{ $now_date ?? '' }} " + timeString + " -";
 
             // Update countdown
             document.getElementById('now_count_down').innerHTML =
