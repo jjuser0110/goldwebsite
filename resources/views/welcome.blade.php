@@ -255,9 +255,9 @@
 
         .section-subtitle {
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #666;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         /* Enhanced Table Design */
@@ -590,11 +590,11 @@
 
         @media (max-width: 480px) {
             .hero h1 { font-size: 1.5rem; }
-            .section-title { font-size: 1.3rem; }
+            .section-title { font-size: 1.1rem; }
 
             .rates-table th,
-            .rates-table td { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
-            .price-cell { font-size: 1.1rem; }
+            .rates-table td { padding: 0.2rem 0.9rem; font-size: 0.8rem; }
+            .price-cell { font-size: 1rem; }
 
             .rates-table tbody td:first-child::before { margin-right: 0.3rem; }
         }
@@ -605,11 +605,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo"><img src="{{asset('assets/img/logoonly.png')}}" alt="6868 GOLD Logo"></div>
-            <div class="language-switcher">
+            <!-- <div class="language-switcher">
                 <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
                 <button class="lang-btn" onclick="switchLanguage('cn')">中文</button>
                 <button class="lang-btn" onclick="switchLanguage('bm')">BM</button>
-            </div>
+            </div> -->
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
                 <li>
@@ -636,10 +636,10 @@
     <section class="rates-section" id="rates">
         <div class="container">
             <h2 class="section-title">
-                <span id="nowdate">- {{$now_date??''}} -</span>
+                <span id="nowdate">- {{$now_date??''}} <span style="font-weight:normal">{{$now_time??''}}</span>-</span>
             </h2>
             <p class="section-subtitle">
-                <span id="nowtime">{{$now_time??''}}</span>
+                <span id="now_count_down">Refresh In <b>4</b>s</span>
             </p>
             
             <!-- Table First -->
@@ -807,13 +807,48 @@
                         }
                     });
 
-                    $("#nowdate").text('- '+response.now_date+' -');
-                    $("#nowtime").text(response.now_time);
+                    document.getElementById('nowdate').innerHTML =
+                        "- {{ $now_date ?? '' }} <span style='font-weight:normal'>" + timeString + "</span> -";
+                    
                 }
             });
         }
         fetchGoldPrices();
         setInterval(fetchGoldPrices, 4000);
+
+
+        let count = 4;
+
+        function updateClock() {
+            const now = new Date();
+
+            // Format time (HH:MM:SS)
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
+
+            let timeString = hours + ':' + minutes + ':' + seconds;
+
+            // Update time (keep your date from Blade)
+            document.getElementById('nowdate').innerHTML =
+                "- {{ $now_date ?? '' }} <span style='font-weight:normal'>" + timeString + "</span> -";
+
+            // Update countdown
+            document.getElementById('now_count_down').innerHTML =
+                "Refresh In <b>" + count + "</b>s";
+
+            count--;
+
+            if (count === 0) {
+                count = 4; // reset to 4
+            }
+        }
+
+        // Run every 1 second
+        setInterval(updateClock, 1000);
+
+        // Run immediately (no delay on first load)
+        updateClock();
 
     </script>
 </body>
