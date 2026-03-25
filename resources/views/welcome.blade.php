@@ -244,6 +244,9 @@
             padding: 5rem 1rem 1rem 1rem;
             background-color: #f8f8f8;
             flex: 1;
+            min-height: auto;
+            padding-bottom: 20px;
+
         }
 
         .section-title {
@@ -263,9 +266,9 @@
         /* Enhanced Table Design */
         .rates-table-container {
             max-width: 900px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 1rem;
             background: white;
-            border-radius: 20px;
+            /* border-radius: 20px; */
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             border: 2px solid #D4AF37;
@@ -598,18 +601,55 @@
 
             .rates-table tbody td:first-child::before { margin-right: 0.3rem; }
         }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Left button */
+        .share-btn {
+            background: #24b400;
+            color: #000000;
+        }
+
+        .share-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Right button */
+        .refresh-btn {
+            background: #d4af37;
+            color: #000000;
+        }
+
+        .refresh-btn:hover {
+            background: #b8962e;
+        }
     </style>
 </head>
 <body>
     <!-- Fixed Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="share_navbar">
         <div class="nav-container">
             <div class="logo"><img src="{{asset('assets/img/logoonly.png')}}" alt="6868 GOLD Logo"></div>
-            <!-- <div class="language-switcher">
+            <div class="language-switcher">
                 <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
                 <button class="lang-btn" onclick="switchLanguage('cn')">中文</button>
                 <button class="lang-btn" onclick="switchLanguage('bm')">BM</button>
-            </div> -->
+            </div>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
                 <li>
@@ -705,6 +745,10 @@
             </div>
 
             
+            <div class="action-buttons">
+                <button class="btn refresh-btn" onclick="refreshRates()" data-en="🔄 Refresh" data-cn="🔄 刷新" data-bm="🔄 Segar">🔄 Refresh</button>
+                <button class="btn share-btn" onclick="sharePage()" data-en="🔗 Share" data-cn="🔗 分享" data-bm="🔗 Kongsi">🔗 Share</button>
+            </div>
         </div>
     </section>
 
@@ -717,7 +761,74 @@
     </footer>
 
   <script src="https://code.jquery.com/jquery-4.0.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        function refreshRates() {
+            location.reload();
+        }
+
+        function sharePage() {
+            const navbar = document.getElementById('share_navbar');
+            const table = document.querySelector('.rates-table-container');
+            const datetime = document.getElementById('nowdate');
+
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'fixed';
+            wrapper.style.top = '-9999px';
+            wrapper.style.left = '0';
+            wrapper.style.width = navbar.offsetWidth + 'px';
+            wrapper.style.background = '#f8f8f8';
+
+            // Clone all three elements
+            const navbarClone = navbar.cloneNode(true);
+            const datetimeClone = datetime.cloneNode(true);
+            const tableClone = table.cloneNode(true);
+
+            // Fix navbar clone (normally position:fixed)
+            navbarClone.style.position = 'relative';
+            navbarClone.style.width = '100%';
+
+            // Style the datetime clone
+            datetimeClone.style.display = 'block';
+            datetimeClone.style.textAlign = 'center';
+            datetimeClone.style.fontSize = '1.5rem';
+            datetimeClone.style.fontWeight = 'bold';
+            datetimeClone.style.color = '#1a1a1a';
+            datetimeClone.style.padding = '16px 0 4px';
+
+            // Table spacing
+            tableClone.style.margin = '12px auto 20px';
+
+            wrapper.appendChild(navbarClone);
+            wrapper.appendChild(datetimeClone);
+            wrapper.appendChild(tableClone);
+            document.body.appendChild(wrapper);
+
+            html2canvas(wrapper, {
+                useCORS: true,
+                scale: 2
+            }).then(canvas => {
+                document.body.removeChild(wrapper);
+
+                canvas.toBlob(blob => {
+                    const file = new File([blob], "gold-rates.png", { type: "image/png" });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            title: '6868 GOLD Rates',
+                            text: 'Latest gold price',
+                            files: [file]
+                        });
+                    } else {
+                        const link = document.createElement('a');
+                        link.download = 'gold-rates.png';
+                        link.href = canvas.toDataURL();
+                        link.click();
+                    }
+                });
+            });
+        }
+
         // Language switching functionality
         let currentLang = 'en';
 
