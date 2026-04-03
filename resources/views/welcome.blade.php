@@ -653,7 +653,7 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-menu" id="navMenu">
                 <li>
-                    <a href="weixin://" target="_blank">
+                    <a>
                         <span data-en="Wechat" data-cn="Wechat" data-bm="Wechat">
                             Wechat ID: Emas-6868
                         </span>
