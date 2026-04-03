@@ -26,7 +26,7 @@ class WelcomeController extends Controller
     public function getPrices(Request $request){
         $goldTypes = [
             'pamp','goldbar','gold999','gold950',
-            'gold916','gold835','gold750','gold585','gold375','type1','type2','type3'
+            'gold916','gold835','gold750','gold585','gold375','type1','type2','type3','type4','type5'
         ];
 
         $data = [];

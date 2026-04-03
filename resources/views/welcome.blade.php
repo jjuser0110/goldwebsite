@@ -740,6 +740,14 @@
                             <td><strong id="type3_name">Type 3</strong></td>
                             <td class="price-cell" id="type3"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
+                        <tr>
+                            <td><strong id="type4_name">Type 4</strong></td>
+                            <td class="price-cell" id="type4"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
+                        </tr>
+                        <tr>
+                            <td><strong id="type5_name">Type 5</strong></td>
+                            <td class="price-cell" id="type5"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
