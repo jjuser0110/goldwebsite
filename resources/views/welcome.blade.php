@@ -775,7 +775,7 @@
             location.reload();
         }
 
-        function sharePage() {
+        async function sharePage() {
             const navbar = document.getElementById('share_navbar');
             const table = document.querySelector('.rates-table-container');
             const datetime = document.getElementById('nowdate');
@@ -786,17 +786,18 @@
             wrapper.style.left = '0';
             wrapper.style.width = navbar.offsetWidth + 'px';
             wrapper.style.background = '#f8f8f8';
+            wrapper.style.zIndex = '-1';
 
-            // Clone all three elements
+            // Clone elements
             const navbarClone = navbar.cloneNode(true);
             const datetimeClone = datetime.cloneNode(true);
             const tableClone = table.cloneNode(true);
 
-            // Fix navbar clone (normally position:fixed)
+            // Fix navbar clone
             navbarClone.style.position = 'relative';
             navbarClone.style.width = '100%';
 
-            // Style the datetime clone
+            // Datetime style
             datetimeClone.style.display = 'block';
             datetimeClone.style.textAlign = 'center';
             datetimeClone.style.fontSize = '1.5rem';
@@ -812,29 +813,61 @@
             wrapper.appendChild(tableClone);
             document.body.appendChild(wrapper);
 
-            html2canvas(wrapper, {
-                useCORS: true,
-                scale: 2
-            }).then(canvas => {
+            try {
+                const canvas = await html2canvas(wrapper, {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: "#f8f8f8"
+                });
+
                 document.body.removeChild(wrapper);
 
-                canvas.toBlob(blob => {
-                    const file = new File([blob], "gold-rates.png", { type: "image/png" });
+                const dataUrl = canvas.toDataURL("image/png");
 
-                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                        navigator.share({
-                            title: '6868 GOLD Rates',
-                            text: 'Latest gold price',
-                            files: [file]
-                        });
-                    } else {
-                        const link = document.createElement('a');
-                        link.download = 'gold-rates.png';
-                        link.href = canvas.toDataURL();
-                        link.click();
+                // Convert dataURL to Blob manually (better for iPhone)
+                const blob = await (await fetch(dataUrl)).blob();
+                const file = new File([blob], "gold-rates.png", { type: "image/png" });
+
+                // iPhone / Safari share support
+                if (navigator.share) {
+                    try {
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                            await navigator.share({
+                                title: '6868 GOLD Rates',
+                                text: 'Latest gold price',
+                                files: [file]
+                            });
+                        } else {
+                            // Fallback for Safari if file share not supported
+                            await navigator.share({
+                                title: '6868 GOLD Rates',
+                                text: 'Latest gold price'
+                            });
+                        }
+                    } catch (err) {
+                        console.log("Share cancelled or failed:", err);
+                        downloadImage(dataUrl);
                     }
-                });
-            });
+                } else {
+                    downloadImage(dataUrl);
+                }
+
+            } catch (err) {
+                console.error("Error generating image:", err);
+                alert("Unable to share. Please try again.");
+                if (document.body.contains(wrapper)) {
+                    document.body.removeChild(wrapper);
+                }
+            }
+        }
+
+        function downloadImage(dataUrl) {
+            const link = document.createElement('a');
+            link.download = 'gold-rates.png';
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // Language switching functionality
