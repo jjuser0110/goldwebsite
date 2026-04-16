@@ -16,29 +16,32 @@ use DB;
 
 class WelcomeController extends Controller
 {
+    // public function welcome(Request $request)
+    // {
+    //     $now_date = Carbon::now()->format('j F Y');
+    //     $now_time = Carbon::now()->format('H:i:s');
+    //     return view('welcome')->with('now_date',$now_date)->with('now_time',$now_time);
+    // }
     public function welcome(Request $request)
     {
         $now_date = Carbon::now()->format('j F Y');
         $now_time = Carbon::now()->format('H:i:s');
-        return view('welcome')->with('now_date',$now_date)->with('now_time',$now_time);
+
+        $goldRates = GoldTable::where('type', '!=', 'datetime')->get();
+
+        return view('welcome', compact('now_date', 'now_time', 'goldRates'));
     }
-    
+
     public function getPrices(Request $request)
     {
-        $goldTypes = [
-            'pamp','goldbar','gold999','gold950',
-            'gold916','gold835','gold750','gold585',
-            'gold375','type1','type2','type3','type4','type5'
-        ];
+        $goldRates = GoldTable::where('type', '!=', 'datetime')->get();
 
         $data = [];
         $name = [];
 
-        foreach ($goldTypes as $type) {
-            $gold = GoldTable::where('type', $type)->first();
-
-            $data[$type] = $gold->new_value ?? 0.00;
-            $name[$type] = $gold->show_name ?? $type;
+        foreach ($goldRates as $row) {
+            $data[$row->type] = $row->new_value ?? 0.00;
+            $name[$row->type] = $row->show_name ?? $row->type;
         }
 
         return response()->json([

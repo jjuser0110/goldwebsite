@@ -38,8 +38,10 @@ class HomeController extends Controller
     public function update_additional_value(Request $request){
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'exists:gold_tables,id'],
+            'value' => ['nullable', 'numeric'], 
             'additional_value' => ['nullable', 'numeric'],
             'water_level' => ['nullable', 'numeric'],
+            'show_name' => ['nullable', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -47,19 +49,25 @@ class HomeController extends Controller
         }
 
         $goldRate = GoldTable::find($request->id);
-        $additional_value = $request->additional_value;
-        $water_level = $request->water_level;
-        if($goldRate->type == 'usd'){
-            $new_value = round($goldRate->value+$additional_value,4);
-        }else{
-            $new_value = round(($goldRate->value + $additional_value) * $water_level, 2);
+        $goldRate->value = $request->value ?? $goldRate->value;
+        $goldRate->additional_value = $request->additional_value ?? 0;
+        $goldRate->water_level = $request->water_level ?? 0;
+        $goldRate->show_name = $request->show_name ?? $goldRate->show_name;
+        if ($goldRate->type == 'usd') {
+            $new_value = round($goldRate->value + $goldRate->additional_value, 4);
+        } else {
+            $new_value = round(
+                ($goldRate->value - $goldRate->water_level)
+                + $goldRate->additional_value,
+                2
+            );
         }
-        $goldRate->update(['additional_value'=>$additional_value,'water_level'=>$water_level,'new_value'=>$new_value,'show_name'=>$request->show_name]);
+        $goldRate->new_value = $new_value;
+        $goldRate->save();
 
-        
         DailyRate::where('type',$goldRate->type)->delete();
         switch ($goldRate->type) {
-            case 'pamp':
+            case 'castingpamp':
             case 'goldbar':
             case 'gold999':
             case 'gold950':    
@@ -68,6 +76,10 @@ class HomeController extends Controller
             case 'gold750':    
             case 'gold585':    
             case 'gold375':    
+            case '钱金/盾金':    
+            case '白金750':    
+            case '白金585':    
+            case '白金375':    
                 $startTime = Carbon::now();
                 $endTime   = $startTime->copy()->addMinutes(30);
 

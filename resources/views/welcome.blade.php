@@ -692,6 +692,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($goldRates as $row)
+                            @if($row->type != 'datetime')
+                            <tr>
+                                <td>
+                                    <strong id="{{ $row->type }}_name">
+                                        {{ $row->show_name ?? strtoupper($row->type) }}
+                                    </strong>
+                                </td>
+                                <td class="price-cell" id="{{ $row->type }}">
+                                    <img src="{{asset('assets/img/pload2.gif')}}" height="25">
+                                </td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                    <!-- <tbody>
                         <tr>
                             <td><strong id="pamp_name">PAMP</strong></td>
                             <td class="price-cell" id="pamp"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
@@ -748,7 +764,7 @@
                             <td><strong id="type5_name">Type 5</strong></td>
                             <td class="price-cell" id="type5"><img src="{{asset('assets/img/pload2.gif')}}" height=25></td>
                         </tr>
-                    </tbody>
+                    </tbody> -->
                 </table>
             </div>
 
@@ -768,7 +784,8 @@
         </div>
     </footer>
 
-  <script src="https://code.jquery.com/jquery-4.0.0.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-4.0.0.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         function refreshRates() {

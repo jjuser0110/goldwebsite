@@ -52,9 +52,25 @@
                             <td>{{$row->type??""}}</td>
                             <td><input type="text" class="editnamevalue" name="show_name" value="{{$row->show_name??""}}" onchange="saveData({{$row->id}})" id="show_name_{{$row->id}}" /></td>
                             @if($row->type == 'usd')
-                            <td>{{number_format($row->value, 4)??""}}</td>
+                           
+                            <td>
+                                <input type="text"
+                                    class="editvalue"
+                                    name="value"
+                                    value="{{$row->value, 4 ?? ''}}"
+                                    onchange="saveData({{$row->id}})"
+                                    id="value_{{$row->id}}" />
+                            </td>
                             @else
-                            <td>{{number_format($row->value, 2)??""}}</td>
+                           
+                            <td>
+                                <input type="text"
+                                    class="editvalue"
+                                    name="value"
+                                    value="{{$row->value, 2 ?? ''}}"
+                                    onchange="saveData({{$row->id}})"
+                                    id="value_{{$row->id}}" />
+                            </td>
                             @endif
                             <td>
                                 @if($row->type != 'datetime' && $row->type != 'usd')
@@ -96,10 +112,40 @@
             lengthMenu: [20, 25, 50, 75, 100]
         });
     });
+    // function saveData(id){
+    //     var show_name = $('#show_name_'+id).val();
+    //     var additional_value = $('#additional_value_'+id).val();
+    //     var water_level = $('#water_level_'+id).val();
+    //     $.ajax({
+    //         url: '{{ route("update_additional_value") }}',
+    //         type: 'POST',
+    //         data: {
+    //             _token: '{{ csrf_token() }}',
+    //             id: id,
+    //             show_name: show_name,
+    //             additional_value: additional_value,
+    //             water_level: water_level
+    //         },
+    //         success: function(response) {
+    //             if(response.status == 'success'){
+    //                 alert('Additional value updated successfully.');
+    //                 $('#new_value_'+id).text(response.new_value);
+    //             } else {
+    //                 alert('Failed to update additional value.');
+    //             }
+    //         },
+    //         error: function(xhr) {
+    //             alert('An error occurred while updating additional value.');
+    //         }
+    //     });
+    // }
+
     function saveData(id){
         var show_name = $('#show_name_'+id).val();
+        var value = $('#value_'+id).val();
         var additional_value = $('#additional_value_'+id).val();
         var water_level = $('#water_level_'+id).val();
+
         $.ajax({
             url: '{{ route("update_additional_value") }}',
             type: 'POST',
@@ -107,19 +153,17 @@
                 _token: '{{ csrf_token() }}',
                 id: id,
                 show_name: show_name,
+                value: value, // ✅ NEW
                 additional_value: additional_value,
                 water_level: water_level
             },
             success: function(response) {
                 if(response.status == 'success'){
-                    alert('Additional value updated successfully.');
+                    alert('Updated successfully.');
                     $('#new_value_'+id).text(response.new_value);
                 } else {
-                    alert('Failed to update additional value.');
+                    alert('Failed to update.');
                 }
-            },
-            error: function(xhr) {
-                alert('An error occurred while updating additional value.');
             }
         });
     }
