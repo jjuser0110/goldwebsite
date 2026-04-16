@@ -678,9 +678,9 @@
             <h2 class="section-title">
                 <span id="nowdate">- {{$now_date??''}} <span style="font-weight:normal">{{$now_time??''}}</span>-</span>
             </h2>
-            <p class="section-subtitle">
+            <!-- <p class="section-subtitle">
                 <span id="now_count_down">Refresh In <b>4</b>s</span>
-            </p>
+            </p> -->
             
             <!-- Table First -->
             <div class="rates-table-container">
