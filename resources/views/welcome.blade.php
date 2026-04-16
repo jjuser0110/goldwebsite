@@ -981,8 +981,8 @@
                 }
             });
         }
-        fetchGoldPrices();
-        setInterval(fetchGoldPrices, 4000);
+        // fetchGoldPrices();
+        // setInterval(fetchGoldPrices, 4000);
 
 
         let count = 4;
@@ -1002,14 +1002,14 @@
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
             // Update countdown
-            document.getElementById('now_count_down').innerHTML =
-                "Refresh In <b>" + count + "</b>s";
+            // document.getElementById('now_count_down').innerHTML =
+            //     "Refresh In <b>" + count + "</b>s";
 
             count--;
 
-            if (count === 0) {
-                count = 4; // reset to 4
-            }
+            // if (count === 0) {
+            //     count = 4; // reset to 4
+            // }
         }
 
         // Run every 1 second
