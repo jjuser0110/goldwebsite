@@ -981,7 +981,7 @@
                 }
             });
         }
-        // fetchGoldPrices();
+        fetchGoldPrices();
         // setInterval(fetchGoldPrices, 4000);
 
 
