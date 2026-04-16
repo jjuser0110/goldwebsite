@@ -24,6 +24,16 @@
                         {{ $goldRates->where('type', 'datetime')->first()->value ?? '' }}
                 </div>
             </div>
+            <div class="dt-action-buttons text-end pt-3 pt-md-0">
+                    <div class="dt-buttons"> 
+                        <a class="dt-button create-new btn btn-primary" type="button" href="{{route('gold.create')}}">
+                            <span><i class="bx bx-plus me-sm-1"></i> 
+                                <span class="d-none d-sm-inline-block">Add New Gold</span>
+                            </span>
+                        </a> 
+                    </div>
+                </div>
+
             <div class="card-datatable text-nowrap">
                 <table class="dt-column-search table table-bordered" id="mytable">
                     <thead>

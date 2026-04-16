@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +22,10 @@ Route::post('/update_additional_value', [App\Http\Controllers\HomeController::cl
 Route::get('/getPrices', [App\Http\Controllers\WelcomeController::class, 'getPrices'])->name('getPrices');
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 Route::get('/test2', [App\Http\Controllers\HomeController::class, 'test2'])->name('test2');
+Route::get('/gold', [RateController::class, 'goldIndex'])->name('gold.index');
+
+Route::get('/gold/create', [RateController::class, 'goldCreate'])->name('gold.create');
+Route::post('/gold/store', [RateController::class, 'goldStore'])->name('gold.store');
+
+Route::get('/gold/{id}/edit', [RateController::class, 'goldEdit'])->name('gold.edit');
+Route::post('/gold/{id}/update', [RateController::class, 'goldUpdate'])->name('gold.update');

@@ -12,13 +12,13 @@
                     <h5 class="card-title mb-0">Rate Listing</h5>
                 </div>
                 <div class="dt-action-buttons text-end pt-3 pt-md-0">
-                    <!-- <div class="dt-buttons"> 
+                    <div class="dt-buttons"> 
                         <a class="dt-button create-new btn btn-primary" type="button" href="{{route('bank.create')}}" onclick="showLoading()">
                             <span><i class="bx bx-plus me-sm-1"></i> 
                                 <span class="d-none d-sm-inline-block">Add New Record</span>
                             </span>
                         </a> 
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="card-datatable text-nowrap">
