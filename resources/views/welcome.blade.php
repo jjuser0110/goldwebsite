@@ -678,9 +678,9 @@
             <h2 class="section-title">
                 <span id="nowdate">- {{$now_date??''}} <span style="font-weight:normal">{{$now_time??''}}</span>-</span>
             </h2>
-            <!-- <p class="section-subtitle">
-                <span id="now_count_down">Refresh In <b>4</b>s</span>
-            </p> -->
+            <p class="section-subtitle">
+                <span id="now_count_down"></span>
+            </p>
             
             <!-- Table First -->
             <div class="rates-table-container">
@@ -982,10 +982,10 @@
             });
         }
         fetchGoldPrices();
-        // setInterval(fetchGoldPrices, 4000);
+        setInterval(fetchGoldPrices, 5000);
 
 
-        let count = 4;
+        let count = 5;
 
         function updateClock() {
             const now = new Date();
@@ -1002,14 +1002,14 @@
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
             // Update countdown
-            // document.getElementById('now_count_down').innerHTML =
-            //     "Refresh In <b>" + count + "</b>s";
+            document.getElementById('now_count_down').innerHTML =
+                "Refresh In <b>" + count + "</b>s";
 
             count--;
 
-            // if (count === 0) {
-            //     count = 4; // reset to 4
-            // }
+            if (count === 0) {
+                count = 5; // reset to 5
+            }
         }
 
         // Run every 1 second

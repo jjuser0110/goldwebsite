@@ -77,6 +77,47 @@ class RateController extends Controller
             'new_value' => $newValue,
         ]);
 
+        DailyRate::where('type', $gold->type)->forceDelete();
+
+        $startTime = Carbon::now();
+        $endTime = $startTime->copy()->addMinutes(20);
+
+        $gold_value = $newValue;
+        $different_value = $gold_value - 1;
+
+        $currentPrice = $gold_value;
+        $currentTime = $startTime->copy();
+
+        $records = [];
+
+        while ($currentTime->lt($endTime)) {
+
+            $interval = collect([5, 10])->random();
+            $currentTime->addSeconds($interval);
+
+            if ($currentTime->gt($endTime)) {
+                break;
+            }
+
+            $change = rand(-20, 20) / 100;
+            $newPrice = $currentPrice + $change;
+
+            $newPrice = min($gold_value, max($different_value, $newPrice));
+            $currentPrice = round($newPrice, 2);
+
+            $records[] = [
+                'datetime' => $currentTime->copy(),
+                'type' => $type,
+                'rate' => $currentPrice,
+            ];
+        }
+
+        if (!empty($records)) {
+            DB::table('daily_rates')->insert($records);
+        }
+
+
+
         return redirect()->route('gold.index')->with('success','Updated');
     }
 

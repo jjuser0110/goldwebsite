@@ -28,9 +28,14 @@ class AddRate extends Command
                 case 'gold835':    
                 case 'gold750':    
                 case 'gold585':    
-                case 'gold375':    
+                case 'gold375':     
+                case 'type1':    
+                case 'type2':    
+                case 'type3':    
+                case 'type4':    
+                case 'type5':   
                     $startTime = Carbon::now();
-                    $endTime   = $startTime->copy()->addMinutes(30);
+                    $endTime   = $startTime->copy()->addMinutes(20);
 
                     $gold_value = $gold->new_value;
                     $different_value = $gold_value - 1;
