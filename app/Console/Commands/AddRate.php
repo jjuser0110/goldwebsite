@@ -32,8 +32,7 @@ class AddRate extends Command
                 case 'type1':    
                 case 'type2':    
                 case 'type3':    
-                case 'type4':    
-                case 'type5':   
+                case 'type4':      
                     $startTime = Carbon::now();
                     $endTime   = $startTime->copy()->addMinutes(20);
 
