@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Browsershot\Browsershot;
 use App\Models\GoldTable;
 use App\Models\RateTable;
+use App\Models\Setting;
 use App\Models\DailyRate;
 use Bouncer;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,9 @@ class WelcomeController extends Controller
 
         $goldRates = GoldTable::where('type', '!=', 'datetime')->get();
 
-        return view('welcome', compact('now_date', 'now_time', 'goldRates'));
+        $setting = Setting::where('type', 'working')->first();
+
+        return view('welcome', compact('now_date', 'now_time', 'goldRates','setting'));
     }
 
     // public function getPrices(Request $request)
@@ -61,7 +64,11 @@ class WelcomeController extends Controller
 
         $data = [];
         $name = [];
-
+        $working = 1;
+        $checkSetting = Setting::where('type', 'working')->first();
+        if (!$checkSetting || $checkSetting->value != 1) {
+            $working = 0;
+        }
         foreach ($goldTypes as $type) {
             $goldrate = GoldTable::where('type',$type)->first()->new_value??0.00;
 
@@ -75,8 +82,12 @@ class WelcomeController extends Controller
                 ->whereNull('deleted_at')
                 ->first();
                 
-            $data[$type] = $latest ? $latest->rate : $goldrate;
             $name[$type] = GoldTable::where('type',$type)->first()->show_name??$type;
+            if($working == 0){
+                $data[$type] = "Off Work";
+            }else{
+                $data[$type] = $latest ? $latest->rate : $goldrate;
+            }
         }
         $now_date = Carbon::now()->format('j F Y');
         $now_time = Carbon::now()->format('H:i:s');

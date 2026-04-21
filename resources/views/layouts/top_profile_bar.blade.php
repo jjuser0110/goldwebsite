@@ -427,7 +427,14 @@
                     </ul>
                   </li> -->
                   <!--/ Notification -->
-
+                  @php
+                    $setting = \App\Models\Setting::where('type', 'working')->first();
+                  @endphp
+                  @if($setting && $setting->value == 1)
+                  <span class="badge bg-label-success" style="cursor: pointer;" onclick="onofffunction()">Working</span>
+                  @else
+                  <span class="badge bg-label-danger" style="cursor: pointer;" onclick="onofffunction()">Maintenance</span>
+                  @endif
                   <!-- User -->
                   <li class="nav-item navbar-dropdown dropdown-user dropdown">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -491,3 +498,25 @@
             </div>
           </nav>
     </div>
+
+    <script>
+      function onofffunction(){
+        if(!confirm('Are you sure you want to change the working status?')){
+          return;
+        }
+
+        $.ajax({
+          url: "{{ route('setting_update') }}",
+          method: 'POST',
+          data: {
+            _token: '{{ csrf_token() }}'
+          },
+          success: function(response) {
+            location.reload();
+          },
+          error: function(xhr, status, error) {
+            console.error(error);
+          }
+        });
+      }
+    </script>

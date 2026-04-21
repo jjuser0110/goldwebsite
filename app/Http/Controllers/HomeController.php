@@ -7,6 +7,7 @@ use Spatie\Browsershot\Browsershot;
 use App\Models\GoldTable;
 use App\Models\RateTable;
 use App\Models\DailyRate;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 use Bouncer;
@@ -232,5 +233,16 @@ class HomeController extends Controller
             }
         }
         DB::table('daily_rates')->insert($records);
+    }
+
+    function setting_update(Request $request){
+        $setting = Setting::where('type', 'working')->first();
+        if($setting){
+            $setting->value = $setting->value == 1 ? 0 : 1;
+            $setting->save();
+            return response()->json(['status' => 'success', 'message' => 'Setting updated successfully.', 'new_value' => $setting->value]);
+        }else{
+            return response()->json(['status' => 'error', 'message' => 'Setting not found.'], 404);
+        }
     }
 }

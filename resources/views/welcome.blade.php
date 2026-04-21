@@ -950,11 +950,20 @@
                     // console.log(response.data);
 
                     $.each(response.data, function(type, dd) {
-                        // console.log(type,dd);
+                        console.log(type,dd);
                         let elem = $("#" + type);
                         let showname = $("#" + type+"_name");
-                        let oldValue = parseFloat(elem.text().replace("RM ", "")); // get old value without "RM "
-                        let newValue = parseFloat(dd).toFixed(2);
+                        if(dd == 'Off Work'){
+                            var oldValue = parseFloat(elem.text().replace("RM ", "")); 
+                            var newValue = 'Off Work';
+                            // Update text
+                            elem.text(newValue);
+                        }else{
+                            let oldValue = parseFloat(elem.text().replace("RM ", "")); // get old value without "RM "
+                            let newValue = parseFloat(dd).toFixed(2);
+                            // Update text
+                            elem.text("RM " + newValue);
+                        }
                         let newName = response.name[type] || type;
 
                         // Compare old and new values
@@ -969,8 +978,6 @@
                             elem.css("color", "black");
                         }
 
-                        // Update text
-                        elem.text("RM " + newValue);
                         if (showname.length) {
                             showname.text(newName);
                         }
@@ -1002,8 +1009,13 @@
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
             // Update countdown
+            @if($setting && $setting->value == 1)
             document.getElementById('now_count_down').innerHTML =
                 "Refresh In <b>" + count + "</b>s";
+            @else
+            document.getElementById('now_count_down').innerHTML =
+                "Off Work";
+            @endif
 
             count--;
 

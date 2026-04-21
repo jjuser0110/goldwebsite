@@ -29,3 +29,4 @@ Route::post('/gold/store', [RateController::class, 'goldStore'])->name('gold.sto
 
 Route::get('/gold/{id}/edit', [RateController::class, 'goldEdit'])->name('gold.edit');
 Route::post('/gold/{id}/update', [RateController::class, 'goldUpdate'])->name('gold.update');
+Route::post('/setting_update', [App\Http\Controllers\HomeController::class, 'setting_update'])->name('setting_update');
