@@ -25,19 +25,27 @@
                 </div>
             </div>
             <div class="dt-action-buttons text-end pt-3 pt-md-0">
-                    <div class="dt-buttons"> 
-                        <a class="dt-button create-new btn btn-primary" type="button" href="{{route('gold.create')}}">
-                            <span><i class="bx bx-plus me-sm-1"></i> 
-                                <span class="d-none d-sm-inline-block">Add New Gold</span>
-                            </span>
-                        </a> 
-                    </div>
+                <div class="dt-buttons d-flex gap-2 justify-content-end">
+
+                    <a class="dt-button create-new btn btn-primary" href="{{route('gold.create')}}">
+                        <i class="bx bx-plus me-sm-1"></i> 
+                        <span class="d-none d-sm-inline-block">Add New Gold</span>
+                    </a> 
+
+                    <button class="dt-button btn btn-warning" onclick="openBulkModal()">
+                        <i class="bx bx-edit me-sm-1"></i>
+                        <span class="d-none d-sm-inline-block">Bulk Update Price</span>
+                    </button>
+
                 </div>
+            </div>
 
             <div class="card-datatable text-nowrap">
+            
                 <table class="dt-column-search table table-bordered" id="mytable">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="checkAll"></th>
                             <th>Type</th>
                             <th>Name</th>
                             <th>Value</th>
@@ -49,6 +57,9 @@
                     <tbody>
                         @foreach($goldRates->where('type', '!=', 'datetime') as $row)
                         <tr>
+                            <td>
+                                <input type="checkbox" class="row-check" value="{{ $row->id }}">
+                            </td>
                             <td>{{$row->type??""}}</td>
                             <td><input type="text" class="editnamevalue" name="show_name" value="{{$row->show_name??""}}" onchange="saveData({{$row->id}})" id="show_name_{{$row->id}}" /></td>
                             @if($row->type == 'usd')
@@ -95,9 +106,48 @@
             </div>
         </div>
     </div>
-    <!-- / Content -->
+    <!-- / Bulk Update Content -->
+    <div class="modal fade" id="bulkModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5>Bulk Price Adjustment</h5>
+                </div>
 
+                <div class="modal-body">
+
+                    <!-- Last used value -->
+                    <div class="mb-2">
+                        <small class="text-muted">Last used:</small>
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="useLastValue()">
+                            <span id="lastValueText">+0</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick buttons -->
+                    <div class="mb-3">
+                        <button class="btn btn-sm btn-success" onclick="setValue('+1')">+1</button>
+                        <button class="btn btn-sm btn-success" onclick="setValue('+0.5')">+0.5</button>
+                        <button class="btn btn-sm btn-danger" onclick="setValue('-0.5')">-0.5</button>
+                        <button class="btn btn-sm btn-danger" onclick="setValue('-1')">-1</button>
+                    </div>
+
+                    <!-- Manual input -->
+                    <label>Custom Value (+ / -)</label>
+                    <input type="text" id="bulk_value" class="form-control"
+                        placeholder="+1 or -0.5">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="applyBulk()">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     @endsection
     @section('page-js')
     @endsection
@@ -163,6 +213,106 @@
                     $('#new_value_'+id).text(response.new_value);
                 } else {
                     alert('Failed to update.');
+                }
+            }
+        });
+    }
+
+    function openBulkModal(){
+        let selected = $('.row-check:checked').length;
+
+        if(selected === 0){
+            alert('⚠️ Please select at least one item first.');
+            return;
+        }
+
+        $('#bulkModal').modal('show');
+    }
+
+    function applyBulk(){
+        let ids = [];
+        $('.row-check:checked').each(function(){
+            ids.push($(this).val());
+        });
+
+        let adjust = $('#bulk_value').val();
+
+        if(ids.length === 0){
+            alert('Please select at least one');
+            return;
+        }
+
+        $.ajax({
+            url: '{{ route("bulk_update_gold") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                ids: ids,
+                adjust: adjust
+            },
+            success: function(res){
+                if(res.status === 'success'){
+                    alert('Updated!');
+                    location.reload();
+                }
+            }
+        });
+    }
+    let lastBulkValue = "+0";
+
+    function openBulkModal(){
+        let selected = $('.row-check:checked').length;
+
+        if(selected === 0){
+            alert('Please select at least one item');
+            return;
+        }
+
+        $('#lastValueText').text(lastBulkValue);
+
+        $('#bulkModal').modal('show');
+    }
+
+    // quick buttons
+    function setValue(val){
+        $('#bulk_value').val(val);
+    }
+
+    // reuse last value
+    function useLastValue(){
+        $('#bulk_value').val(lastBulkValue);
+    }
+
+    // save
+    function applyBulk(){
+
+        let ids = [];
+        $('.row-check:checked').each(function(){
+            ids.push($(this).val());
+        });
+
+        let adjust = $('#bulk_value').val();
+
+        if(!adjust){
+            alert('Enter a value');
+            return;
+        }
+
+        // store last used value
+        lastBulkValue = adjust;
+
+        $.ajax({
+            url: '{{ route("bulk_update_gold") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                ids: ids,
+                adjust: adjust
+            },
+            success: function(res){
+                if(res.status === 'success'){
+                    alert('Updated successfully');
+                    location.reload();
                 }
             }
         });

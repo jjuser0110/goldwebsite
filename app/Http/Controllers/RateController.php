@@ -121,4 +121,30 @@ class RateController extends Controller
         return redirect()->route('gold.index')->with('success','Updated');
     }
 
+    public function bulkUpdate(Request $request)
+    {
+        $ids = $request->ids;
+        $adjust = floatval($request->adjust); // supports + or -
+
+        foreach($ids as $id){
+            $gold = GoldTable::find($id);
+
+            if(!$gold) continue;
+
+            $newValue = $gold->value + $adjust;
+
+            $finalValue = ($newValue - ($gold->water_level ?? 0))
+                        + ($gold->additional_value ?? 0);
+
+            $gold->update([
+                'value' => $newValue,
+                'new_value' => $finalValue
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
 }
