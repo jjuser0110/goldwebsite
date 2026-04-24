@@ -261,7 +261,7 @@
             return;
         }
 
-        adjust = normalizeValue(adjust); // 🔥 ADD THIS
+        adjust = normalizeValue(adjust); 
 
         lastBulkValue = adjust;
         $('#lastValueText').text(lastBulkValue);

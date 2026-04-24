@@ -58,7 +58,7 @@ class HomeController extends Controller
             $new_value = round($goldRate->value + $goldRate->additional_value, 4);
         } else {
             $new_value = round(
-                ($goldRate->value - $goldRate->water_level)
+                ($goldRate->value * $goldRate->water_level)
                 + $goldRate->additional_value,
                 2
             );

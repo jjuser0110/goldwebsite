@@ -46,8 +46,8 @@ class RateController extends Controller
             'value' => 'required|numeric'
         ]);
 
-        $newValue = ($request->value - ($request->water_level ?? 0))
-                    + ($request->additional_value ?? 0);
+        $newValue = ($request->value * ($request->water_level ?? 0))
+        + ($request->additional_value ?? 0);
 
         GoldTable::create([
             'type' => $request->type,
@@ -66,8 +66,8 @@ class RateController extends Controller
     {
         $gold = GoldTable::findOrFail($id);
 
-        $newValue = ($request->value - ($request->water_level ?? 0))
-                    + ($request->additional_value ?? 0);
+        $newValue = ($request->value * ($request->water_level ?? 1))
+            + ($request->additional_value ?? 0);
 
         $gold->update([
             'show_name' => $request->show_name,
@@ -107,7 +107,7 @@ class RateController extends Controller
 
             $records[] = [
                 'datetime' => $currentTime->copy(),
-                'type' => $type,
+                'type' => $gold->type,
                 'rate' => $currentPrice,
             ];
         }
@@ -135,8 +135,8 @@ class RateController extends Controller
     
             $newAdditional = ($gold->additional_value ?? 0) + $adjust;
     
-            $newValue = ($gold->value - ($gold->water_level ?? 0))
-                        + $newAdditional;
+            $newValue = ($gold->value * ($gold->water_level ?? 1))
+            + $newAdditional;
     
             $gold->update([
                 'additional_value' => $newAdditional,
