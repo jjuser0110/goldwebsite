@@ -124,26 +124,35 @@ class RateController extends Controller
     public function bulkUpdate(Request $request)
     {
         $ids = $request->ids;
-        $adjust = floatval($request->adjust); // supports + or -
-
+        $adjust = floatval($request->adjust);
+    
+        $updated = [];
+    
         foreach($ids as $id){
+    
             $gold = GoldTable::find($id);
-
             if(!$gold) continue;
-
-            $newValue = $gold->value + $adjust;
-
-            $finalValue = ($newValue - ($gold->water_level ?? 0))
-                        + ($gold->additional_value ?? 0);
-
+    
+            $newAdditional = ($gold->additional_value ?? 0) + $adjust;
+    
+            $newValue = ($gold->value - ($gold->water_level ?? 0))
+                        + $newAdditional;
+    
             $gold->update([
-                'value' => $newValue,
-                'new_value' => $finalValue
+                'additional_value' => $newAdditional,
+                'new_value' => $newValue
             ]);
+    
+            $updated[] = [
+                'id' => $id,
+                'additional_value' => $newAdditional,
+                'new_value' => $newValue
+            ];
         }
-
+    
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => $updated
         ]);
     }
 

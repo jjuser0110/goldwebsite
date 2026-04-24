@@ -275,11 +275,27 @@
                 adjust: adjust
             },
             success: function(res){
-                if(res.status === 'success'){
-                    alert('Updated successfully');
-                    location.reload();
+                    if(res.status === 'success'){
+
+                        res.data.forEach(function(row){
+
+                            // update Add Value input
+                            $('#additional_value_' + row.id).val(row.additional_value);
+
+                            // update New Value display (respect decimals)
+                            let decimals = $('#value_' + row.id).val().includes('.') &&
+                                        $('#value_' + row.id).val().split('.')[1].length === 4 ? 4 : 2;
+
+                            $('#new_value_' + row.id).text(parseFloat(row.new_value).toFixed(decimals));
+                        });
+
+                        alert('Updated successfully');
+                        $('#bulkModal').modal('hide');
+
+                        // optional: clear input
+                        $('#bulk_value').val('');
+                    }
                 }
-            }
         });
     }
     function normalizeValue(val){
