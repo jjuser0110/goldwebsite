@@ -156,6 +156,21 @@
     @endsection
     @section('scripts')
     <script>
+        // Select / Unselect all
+    $('#checkAll').on('change', function () {
+        $('.row-check').prop('checked', $(this).prop('checked'));
+    });
+
+    // If any row checkbox is unchecked → uncheck "checkAll"
+    // If all row checkboxes are checked → check "checkAll"
+    $('.row-check').on('change', function () {
+
+        let total = $('.row-check').length;
+        let checked = $('.row-check:checked').length;
+
+        $('#checkAll').prop('checked', total === checked);
+    });
+    
     $(function(){
         var table = $('#mytable').DataTable({
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>><"table-responsive"t><"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
