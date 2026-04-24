@@ -58,7 +58,10 @@
                         @foreach($goldRates->where('type', '!=', 'datetime') as $row)
                         <tr>
                             <td>
-                                <input type="checkbox" class="row-check" value="{{ $row->id }}">
+                                <input type="checkbox"
+                                    class="row-check"
+                                    value="{{ $row->id }}"
+                                    @if($row->type !== '银饰') checked @endif>
                             </td>
                             <td>{{$row->type??""}}</td>
                             <td><input type="text" class="editnamevalue" name="show_name" value="{{$row->show_name??""}}" onchange="saveData({{$row->id}})" id="show_name_{{$row->id}}" /></td>
@@ -218,46 +221,6 @@
         });
     }
 
-    function openBulkModal(){
-        let selected = $('.row-check:checked').length;
-
-        if(selected === 0){
-            alert('⚠️ Please select at least one item first.');
-            return;
-        }
-
-        $('#bulkModal').modal('show');
-    }
-
-    function applyBulk(){
-        let ids = [];
-        $('.row-check:checked').each(function(){
-            ids.push($(this).val());
-        });
-
-        let adjust = $('#bulk_value').val();
-
-        if(ids.length === 0){
-            alert('Please select at least one');
-            return;
-        }
-
-        $.ajax({
-            url: '{{ route("bulk_update_gold") }}',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                ids: ids,
-                adjust: adjust
-            },
-            success: function(res){
-                if(res.status === 'success'){
-                    alert('Updated!');
-                    location.reload();
-                }
-            }
-        });
-    }
     let lastBulkValue = "+0";
 
     function openBulkModal(){
@@ -298,8 +261,10 @@
             return;
         }
 
-        // store last used value
+        adjust = normalizeValue(adjust); // 🔥 ADD THIS
+
         lastBulkValue = adjust;
+        $('#lastValueText').text(lastBulkValue);
 
         $.ajax({
             url: '{{ route("bulk_update_gold") }}',
@@ -316,6 +281,15 @@
                 }
             }
         });
+    }
+    function normalizeValue(val){
+        val = val.trim();
+
+        if (!val.startsWith('+') && !val.startsWith('-')) {
+            val = '+' + val;
+        }
+
+        return val;
     }
   </script>
     @endsection
