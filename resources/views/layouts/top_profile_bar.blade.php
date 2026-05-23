@@ -427,6 +427,12 @@
                     </ul>
                   </li> -->
                   <!--/ Notification -->
+                  <button type="button"
+                        class="btn btn-sm btn-primary"
+                        id="autoToggleBtn"
+                        onclick="toggleAutoRefresh()">
+                    ⏸ Stop Refresh
+                </button>
                   @php
                     $setting = \App\Models\Setting::where('type', 'working')->first();
                   @endphp
@@ -518,5 +524,21 @@
             console.error(error);
           }
         });
+      }
+
+      function toggleAutoRefresh() {
+          let status = localStorage.getItem('autoRefresh');
+
+          if (status === null) {
+              status = "1"; // default ON
+          }
+
+          if (status === "1") {
+              localStorage.setItem('autoRefresh', "0");
+              document.getElementById('autoToggleBtn').innerHTML = "▶ Resume Refresh";
+          } else {
+              localStorage.setItem('autoRefresh', "1");
+              document.getElementById('autoToggleBtn').innerHTML = "⏸ Stop Refresh";
+          }
       }
     </script>

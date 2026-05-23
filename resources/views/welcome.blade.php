@@ -989,40 +989,54 @@
             });
         }
         fetchGoldPrices();
-        setInterval(fetchGoldPrices, 5000);
+        setInterval(() => {
+            if (localStorage.getItem('autoRefresh') === "0") {
+                return; // STOP refresh
+            }
+            fetchGoldPrices();
+        }, 5000);
 
+        window.addEventListener('load', function () {
+            const status = localStorage.getItem('autoRefresh');
 
+            if (status === "0") {
+                document.getElementById('now_count_down').innerHTML = "Paused";
+            }
+        });
         let count = 5;
 
         function updateClock() {
-            const now = new Date();
 
-            // Format time (HH:MM:SS)
-            let hours = String(now.getHours()).padStart(2, '0');
-            let minutes = String(now.getMinutes()).padStart(2, '0');
-            let seconds = String(now.getSeconds()).padStart(2, '0');
-
-            let timeString = hours + ':' + minutes + ':' + seconds;
-
-            // Update time (keep your date from Blade)
-            document.getElementById('nowdate').innerHTML =
-                "- {{ $now_date ?? '' }} " + timeString + " -";
-
-            // Update countdown
-            @if($setting && $setting->value == 1)
-            document.getElementById('now_count_down').innerHTML =
-                "Refresh In <b>" + count + "</b>s";
-            @else
-            document.getElementById('now_count_down').innerHTML =
-                "Off Work";
-            @endif
-
-            count--;
-
-            if (count === 0) {
-                count = 5; // reset to 5
-            }
+        if (localStorage.getItem('autoRefresh') === "0") {
+            document.getElementById('now_count_down').innerHTML = "Paused";
+            return;
         }
+
+        const now = new Date();
+
+        let hours = String(now.getHours()).padStart(2, '0');
+        let minutes = String(now.getMinutes()).padStart(2, '0');
+        let seconds = String(now.getSeconds()).padStart(2, '0');
+
+        let timeString = hours + ':' + minutes + ':' + seconds;
+
+        document.getElementById('nowdate').innerHTML =
+            "- {{ $now_date ?? '' }} " + timeString + " -";
+
+        @if($setting && $setting->value == 1)
+        document.getElementById('now_count_down').innerHTML =
+            "Refresh In <b>" + count + "</b>s";
+        @else
+        document.getElementById('now_count_down').innerHTML =
+            "Off Work";
+        @endif
+
+        count--;
+
+        if (count === 0) {
+            count = 5;
+        }
+}
 
         // Run every 1 second
         setInterval(updateClock, 1000);
