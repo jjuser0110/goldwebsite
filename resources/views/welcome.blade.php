@@ -943,51 +943,67 @@
         });
 
         function fetchGoldPrices() {
-            $.ajax({
-                url: "{{url('getPrices')}}",
-                type: "GET",
-                success: function(response) {
-                    // console.log(response.data);
+        $.ajax({
+            url: "{{url('getPrices')}}",
+            type: "GET",
+            success: function(response) {
 
-                    $.each(response.data, function(type, dd) {
-                        console.log(type,dd);
-                        let elem = $("#" + type);
-                        let showname = $("#" + type+"_name");
-                        if(dd == 'Off Work'){
-                            var oldValue = parseFloat(elem.text().replace("RM ", "")); 
-                            var newValue = 'Off Work';
-                            // Update text
-                            elem.text(newValue);
-                        }else{
-                            let oldValue = parseFloat(elem.text().replace("RM ", "")); // get old value without "RM "
-                            let newValue = parseFloat(dd).toFixed(2);
-                            // Update text
-                            elem.text("RM " + newValue);
-                        }
-                        let newName = response.name[type] || type;
+                $.each(response.data, function(type, dd) {
 
-                        // Compare old and new values
+                    console.log(type, dd);
+
+                    let elem = $("#" + type);
+                    let showname = $("#" + type + "_name");
+
+                    let oldValue = parseFloat(elem.text().replace("RM ", ""));
+
+                    // OFF WORK
+                    if (dd == 'Off Work') {
+
+                        elem.text('Off Work');
+
+                        // optional colour
+                        elem.css("color", "gray");
+
+                    } else {
+
+                        let newValue = parseFloat(dd).toFixed(2);
+
+                        // update text
+                        elem.text("RM " + newValue);
+
+                        // compare colour
                         if (isNaN(oldValue)) {
-                            // If no old value yet, keep black
+
                             elem.css("color", "black");
-                        } else if (newValue > oldValue) {
+
+                        } else if (parseFloat(newValue) > oldValue) {
+
                             elem.css("color", "green");
-                        } else if (newValue < oldValue) {
+
+                        } else if (parseFloat(newValue) < oldValue) {
+
                             elem.css("color", "red");
+
                         } else {
+
                             elem.css("color", "black");
                         }
+                    }
 
-                        if (showname.length) {
-                            showname.text(newName);
-                        }
-                    });
+                    let newName = response.name[type] || type;
 
-                    $("#nowdate").text('- '+response.now_date+' '+response.now_time+' -');
-                    
-                }
-            });
-        }
+                    if (showname.length) {
+                        showname.text(newName);
+                    }
+
+                });
+
+                $("#nowdate").text('- ' + response.now_date + ' ' + response.now_time + ' -');
+
+            }
+        });
+    }
         fetchGoldPrices();
         setInterval(() => {
             if (localStorage.getItem('autoRefresh') === "0") {
