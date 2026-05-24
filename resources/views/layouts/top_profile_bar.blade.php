@@ -506,60 +506,128 @@
     </div>
 
     <script>
-      function onofffunction(){
-        if(!confirm('Are you sure you want to change the working status?')){
-          return;
+    function onofffunction() {
+
+        if (!confirm('Are you sure you want to change the working status?')) {
+            return;
         }
 
         $.ajax({
-          url: "{{ route('setting_update') }}",
-          method: 'POST',
-          data: {
-            _token: '{{ csrf_token() }}'
-          },
-          success: function(response) {
-            location.reload();
-          },
-          error: function(xhr, status, error) {
-            console.error(error);
-          }
+            url: "{{ route('setting_update') }}",
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
         });
-      }
+    }
 
-      function toggleAutoRefresh() {
-          let status = localStorage.getItem('autoRefresh');
-
-          if (status === null) {
-              status = "1"; // default ON
-          }
-
-          if (status === "1") {
-              localStorage.setItem('autoRefresh', "0");
-              document.getElementById('autoToggleBtn').innerHTML = "▶ Resume Refresh";
-          } else {
-              localStorage.setItem('autoRefresh', "1");
-              document.getElementById('autoToggleBtn').innerHTML = "⏸ Stop Refresh";
-          }
-      }
-      window.addEventListener('load', function () {
+    function toggleAutoRefresh() {
 
         let status = localStorage.getItem('autoRefresh');
 
-        // default ON first time
+        // default ON
         if (status === null) {
-            localStorage.setItem('autoRefresh', "1");
             status = "1";
         }
 
-        if (status === "0") {
+        // =========================
+        // STOP REFRESH
+        // =========================
+        if (status === "1") {
 
-            document.getElementById('autoToggleBtn').innerHTML =
-                "▶ Resume Refresh";
+            localStorage.setItem('autoRefresh', "0");
+
+            let btn = document.getElementById('autoToggleBtn');
+
+            if (btn) {
+                btn.innerHTML = "▶ Resume Refresh";
+            }
+
+            // stop interval safely
+            if (typeof stopAutoRefresh === 'function') {
+                stopAutoRefresh();
+            }
+
+            // update countdown safely
+            let countdown = document.getElementById('now_count_down');
+
+            if (countdown) {
+                countdown.innerHTML = "Paused";
+            }
 
         } else {
 
-            document.getElementById('autoToggleBtn').innerHTML =
-                "⏸ Stop Refresh";
+            // =========================
+            // RESUME REFRESH
+            // =========================
+            localStorage.setItem('autoRefresh', "1");
+
+            let btn = document.getElementById('autoToggleBtn');
+
+            if (btn) {
+                btn.innerHTML = "⏸ Stop Refresh";
+            }
+
+            // fetch latest prices immediately
+            if (typeof fetchGoldPrices === 'function') {
+                fetchGoldPrices();
+            }
+
+            // restart interval safely
+            if (typeof startAutoRefresh === 'function') {
+                startAutoRefresh();
+            }
         }
-      });
-    </script>
+    }
+
+    window.addEventListener('load', function () {
+
+        let status = localStorage.getItem('autoRefresh');
+
+        // first time default ON
+        if (status === null) {
+
+            localStorage.setItem('autoRefresh', "1");
+
+            status = "1";
+        }
+
+        let btn = document.getElementById('autoToggleBtn');
+
+        // =========================
+        // PAUSED STATE
+        // =========================
+        if (status === "0") {
+
+            if (btn) {
+                btn.innerHTML = "▶ Resume Refresh";
+            }
+
+            let countdown = document.getElementById('now_count_down');
+
+            if (countdown) {
+                countdown.innerHTML = "Paused";
+            }
+
+        } else {
+
+            // =========================
+            // RUNNING STATE
+            // =========================
+            if (btn) {
+                btn.innerHTML = "⏸ Stop Refresh";
+            }
+
+            // start auto refresh safely
+            if (typeof startAutoRefresh === 'function') {
+                startAutoRefresh();
+            }
+        }
+    });
+</script>

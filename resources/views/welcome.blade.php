@@ -1004,21 +1004,52 @@
             }
         });
     }
+    window.addEventListener('load', function () {
+
+        let status = localStorage.getItem('autoRefresh');
+
+        if (status === null) {
+
+            localStorage.setItem('autoRefresh', "1");
+            status = "1";
+        }
+
+        // fetch once immediately
         fetchGoldPrices();
-        setInterval(() => {
-            if (localStorage.getItem('autoRefresh') === "0") {
-                return; // STOP refresh
-            }
-            fetchGoldPrices();
-        }, 5000);
 
-        window.addEventListener('load', function () {
-            const status = localStorage.getItem('autoRefresh');
-
-            if (status === "0") {
-                document.getElementById('now_count_down').innerHTML = "Paused";
-            }
+        // start auto refresh only if enabled
+        if (status !== "0") {
+            startAutoRefresh();
+        }
         });
+
+        let autoRefreshInterval = null;
+
+        function startAutoRefresh() {
+
+            // prevent duplicate interval
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+
+            autoRefreshInterval = setInterval(() => {
+
+                if (localStorage.getItem('autoRefresh') === "0") {
+                    return;
+                }
+
+                fetchGoldPrices();
+
+            }, 5000);
+        }
+
+        function stopAutoRefresh() {
+
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
         let count = 5;
 
         function updateClock() {
@@ -1035,13 +1066,6 @@
             document.getElementById('nowdate').innerHTML =
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
-            // ONLY stop refresh countdown
-            if (localStorage.getItem('autoRefresh') === "0") {
-
-                document.getElementById('now_count_down').innerHTML = "Paused";
-
-                return;
-            }
 
             @if($setting && $setting->value == 1)
             document.getElementById('now_count_down').innerHTML =
@@ -1063,6 +1087,21 @@
 
         // Run immediately (no delay on first load)
         updateClock();
+        window.addEventListener('load', function () {
+
+        let status = localStorage.getItem('autoRefresh');
+
+        // default ON
+        if (status === null) {
+
+            localStorage.setItem('autoRefresh', "1");
+            status = "1";
+        }
+
+        if (status !== "0") {
+            startAutoRefresh();
+        }
+        });
 
     </script>
 </body>
