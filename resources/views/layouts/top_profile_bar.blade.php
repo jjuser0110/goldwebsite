@@ -541,4 +541,25 @@
               document.getElementById('autoToggleBtn').innerHTML = "⏸ Stop Refresh";
           }
       }
+      window.addEventListener('load', function () {
+
+        let status = localStorage.getItem('autoRefresh');
+
+        // default ON first time
+        if (status === null) {
+            localStorage.setItem('autoRefresh', "1");
+            status = "1";
+        }
+
+        if (status === "0") {
+
+            document.getElementById('autoToggleBtn').innerHTML =
+                "▶ Resume Refresh";
+
+        } else {
+
+            document.getElementById('autoToggleBtn').innerHTML =
+                "⏸ Stop Refresh";
+        }
+      });
     </script>

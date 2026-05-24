@@ -1023,36 +1023,40 @@
 
         function updateClock() {
 
-        if (localStorage.getItem('autoRefresh') === "0") {
-            document.getElementById('now_count_down').innerHTML = "Paused";
-            return;
-        }
+            // ALWAYS update datetime
+            const now = new Date();
 
-        const now = new Date();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
 
-        let hours = String(now.getHours()).padStart(2, '0');
-        let minutes = String(now.getMinutes()).padStart(2, '0');
-        let seconds = String(now.getSeconds()).padStart(2, '0');
+            let timeString = hours + ':' + minutes + ':' + seconds;
 
-        let timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('nowdate').innerHTML =
+                "- {{ $now_date ?? '' }} " + timeString + " -";
 
-        document.getElementById('nowdate').innerHTML =
-            "- {{ $now_date ?? '' }} " + timeString + " -";
+            // ONLY stop refresh countdown
+            if (localStorage.getItem('autoRefresh') === "0") {
 
-        @if($setting && $setting->value == 1)
-        document.getElementById('now_count_down').innerHTML =
-            "Refresh In <b>" + count + "</b>s";
-        @else
-        document.getElementById('now_count_down').innerHTML =
-            "Off Work";
-        @endif
+                document.getElementById('now_count_down').innerHTML = "Paused";
 
-        count--;
+                return;
+            }
 
-        if (count === 0) {
-            count = 5;
-        }
-}
+            @if($setting && $setting->value == 1)
+            document.getElementById('now_count_down').innerHTML =
+                "Refresh In <b>" + count + "</b>s";
+            @else
+            document.getElementById('now_count_down').innerHTML =
+                "Off Work";
+            @endif
+
+            count--;
+
+            if (count === 0) {
+                count = 5;
+            }
+        }   
 
         // Run every 1 second
         setInterval(updateClock, 1000);
