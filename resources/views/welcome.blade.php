@@ -983,24 +983,22 @@
     }
     window.addEventListener('load', function () {
 
-    let status = localStorage.getItem('autoRefresh');
+        let status = localStorage.getItem('autoRefresh');
 
-    if (status === null) {
+        if (status === null) {
 
-        localStorage.setItem('autoRefresh', "1");
-        status = "1";
-    }
+            localStorage.setItem('autoRefresh', "1");
+            status = "1";
+        }
 
-    // ONLY fetch if refresh enabled
-    if (status !== "0") {
-
+        // fetch once immediately
         fetchGoldPrices();
-        startAutoRefresh();
 
-    } else {
-
-    }
-    });
+        // start auto refresh only if enabled
+        if (status !== "0") {
+            startAutoRefresh();
+        }
+        });
 
         let autoRefreshInterval = null;
 
