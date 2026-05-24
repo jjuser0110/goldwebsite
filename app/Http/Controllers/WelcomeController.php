@@ -56,46 +56,76 @@ class WelcomeController extends Controller
     //     ]);
     // }
     
-    public function getPrices(Request $request){
+    public function getPrices(Request $request)
+    {
         $goldTypes = [
             'pamp','goldbar','gold999','gold950',
-            'gold916','gold835','gold750','gold585','gold375','type1','type2','type3','type4','type5'
+            'gold916','gold835','gold750',
+            'gold585','gold375',
+            'type1','type2','type3','type4','type5'
         ];
-
+    
         $data = [];
         $name = [];
+    
         $working = 1;
+    
         $checkSetting = Setting::where('type', 'working')->first();
+    
         if (!$checkSetting || $checkSetting->value != 1) {
             $working = 0;
         }
-        foreach ($goldTypes as $type) {
-            $goldrate = GoldTable::where('type',$type)->first()->new_value??0.00;
-
-            $start = Carbon::now()->subSeconds(5);
-            $end   = Carbon::now();
     
-            $latest = DB::table('daily_rates')
-                ->where('type', $type)
-                ->whereBetween('datetime', [$start, $end])
-                ->orderBy('datetime', 'desc') 
-                ->whereNull('deleted_at')
-                ->first();
-                
-            $name[$type] = GoldTable::where('type',$type)->first()->show_name??$type;
-            if($working == 0){
+        // CHECK AUTO REFRESH STATUS
+        $autoRefresh = $request->autoRefresh ?? "1";
+    
+        foreach ($goldTypes as $type) {
+    
+            $goldTable = GoldTable::where('type', $type)->first();
+    
+            $goldrate = $goldTable->new_value ?? 0.00;
+    
+            $name[$type] = $goldTable->show_name ?? $type;
+    
+            // OFF WORK
+            if ($working == 0) {
+    
                 $data[$type] = "Off Work";
-            }else{
-                $data[$type] = $latest ? $latest->rate : $goldrate;
+    
+            } else {
+    
+                // =========================
+                // STOP REFRESH MODE
+                // =========================
+                if ($autoRefresh == "0") {
+    
+                    // ALWAYS USE GOLD TABLE VALUE
+                    $data[$type] = $goldrate;
+    
+                } else {
+    
+                    // LIVE MODE
+                    $start = Carbon::now()->subSeconds(5);
+                    $end   = Carbon::now();
+    
+                    $latest = DB::table('daily_rates')
+                        ->where('type', $type)
+                        ->whereBetween('datetime', [$start, $end])
+                        ->orderBy('datetime', 'desc')
+                        ->whereNull('deleted_at')
+                        ->first();
+    
+                    $data[$type] = $latest
+                        ? $latest->rate
+                        : $goldrate;
+                }
             }
         }
-        $now_date = Carbon::now()->format('j F Y');
-        $now_time = Carbon::now()->format('H:i:s');
-        // dd($data);
+    
         return response()->json([
             'status' => true,
-            'now_date' => $now_date,
-            'now_time' => $now_time,
+            'now_date' => Carbon::now()->format('j F Y'),
+            'now_time' => Carbon::now()->format('H:i:s'),
             'data' => $data,
             'name' => $name,
         ]);

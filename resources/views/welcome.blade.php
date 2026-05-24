@@ -943,44 +943,69 @@
         });
 
         function fetchGoldPrices() {
+
+        let refreshStatus = localStorage.getItem('autoRefresh') ?? "1";
+
         $.ajax({
-            url: "{{url('getPrices')}}",
+            url: "{{ url('getPrices') }}",
             type: "GET",
+            data: {
+                autoRefresh: refreshStatus
+            },
             success: function(response) {
+
                 $.each(response.data, function(type, dd) {
-                    console.log(type, dd);
+
                     let elem = $("#" + type);
                     let showname = $("#" + type + "_name");
-                    let oldValue = parseFloat(elem.text().replace("RM ", ""));
+
+                    let oldValue = parseFloat(
+                        elem.text().replace("RM ", "")
+                    );
+
                     // OFF WORK
                     if (dd == 'Off Work') {
+
                         elem.text('Off Work');
-                        // optional colour
                         elem.css("color", "gray");
+
                     } else {
+
                         let newValue = parseFloat(dd).toFixed(2);
-                        // update text
+
                         elem.text("RM " + newValue);
-                        // compare colour
+
                         if (isNaN(oldValue)) {
+
                             elem.css("color", "black");
+
                         } else if (parseFloat(newValue) > oldValue) {
+
                             elem.css("color", "green");
+
                         } else if (parseFloat(newValue) < oldValue) {
+
                             elem.css("color", "red");
+
                         } else {
+
                             elem.css("color", "black");
                         }
                     }
+
                     let newName = response.name[type] || type;
+
                     if (showname.length) {
                         showname.text(newName);
                     }
                 });
-                $("#nowdate").text('- ' + response.now_date + ' ' + response.now_time + ' -');
+
+                $("#nowdate").text(
+                    '- ' + response.now_date + ' ' + response.now_time + ' -'
+                );
             }
         });
-    }
+        }
     window.addEventListener('load', function () {
 
         let status = localStorage.getItem('autoRefresh');

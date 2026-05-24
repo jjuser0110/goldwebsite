@@ -529,62 +529,63 @@
 
     function toggleAutoRefresh() {
 
-        let status = localStorage.getItem('autoRefresh');
+      let status = localStorage.getItem('autoRefresh');
 
-        // default ON
-        if (status === null) {
-            status = "1";
-        }
+      // default ON
+      if (status === null) {
+          status = "1";
+      }
 
-        // =========================
-        // STOP REFRESH
-        // =========================
-        if (status === "1") {
+      let btn = document.getElementById('autoToggleBtn');
+      let countdown = document.getElementById('now_count_down');
 
-            localStorage.setItem('autoRefresh', "0");
+      // =========================
+      // STOP REFRESH
+      // =========================
+      if (status === "1") {
 
-            let btn = document.getElementById('autoToggleBtn');
+          localStorage.setItem('autoRefresh', "0");
 
-            if (btn) {
-                btn.innerHTML = "▶ Resume Refresh";
-            }
+          if (btn) {
+              btn.innerHTML = "▶ Resume Refresh";
+          }
 
-            // stop interval safely
-            if (typeof stopAutoRefresh === 'function') {
-                stopAutoRefresh();
-            }
+          // stop auto refresh
+          if (typeof stopAutoRefresh === 'function') {
+              stopAutoRefresh();
+          }
 
-            // update countdown safely
-            let countdown = document.getElementById('now_count_down');
+          // LOAD STATIC GOLDTABLE VALUE
+          if (typeof fetchGoldPrices === 'function') {
+              fetchGoldPrices();
+          }
 
-            if (countdown) {
-                countdown.innerHTML = "Paused";
-            }
+          if (countdown) {
+              countdown.innerHTML = "Paused";
+          }
 
-        } else {
+      } else {
 
-            // =========================
-            // RESUME REFRESH
-            // =========================
-            localStorage.setItem('autoRefresh', "1");
+          // =========================
+          // RESUME REFRESH
+          // =========================
+          localStorage.setItem('autoRefresh', "1");
 
-            let btn = document.getElementById('autoToggleBtn');
+          if (btn) {
+              btn.innerHTML = "⏸ Stop Refresh";
+          }
 
-            if (btn) {
-                btn.innerHTML = "⏸ Stop Refresh";
-            }
+          // fetch latest live prices immediately
+          if (typeof fetchGoldPrices === 'function') {
+              fetchGoldPrices();
+          }
 
-            // fetch latest prices immediately
-            if (typeof fetchGoldPrices === 'function') {
-                fetchGoldPrices();
-            }
-
-            // restart interval safely
-            if (typeof startAutoRefresh === 'function') {
-                startAutoRefresh();
-            }
-        }
-    }
+          // restart interval
+          if (typeof startAutoRefresh === 'function') {
+              startAutoRefresh();
+          }
+      }
+      }
 
     window.addEventListener('load', function () {
 
