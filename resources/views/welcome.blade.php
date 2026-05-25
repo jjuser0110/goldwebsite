@@ -1008,25 +1008,26 @@
             }
         });
         }
-    window.addEventListener('load', function () {
+        window.addEventListener('load', function () {
 
-        let status = localStorage.getItem('autoRefresh');
+            let status = localStorage.getItem('autoRefresh');
 
-        if (status === null) {
+            // DEFAULT = LIVE ON
+            if (status === null) {
 
-            localStorage.setItem('autoRefresh', "1");
-            status = "1";
-        }
+                localStorage.setItem('autoRefresh', "1");
+                status = "1";
+            }
 
-        // fetch once immediately
-        fetchGoldPrices();
+            // LOAD DATA IMMEDIATELY
+            fetchGoldPrices();
 
-        // start auto refresh only if enabled
-        if (status !== "0") {
-            startAutoRefresh();
-        }
+            // ONLY START AUTO REFRESH WHEN LIVE MODE
+            if (status === "1") {
+
+                startAutoRefresh();
+            }
         });
-
         let autoRefreshInterval = null;
 
         function startAutoRefresh() {
@@ -1075,16 +1076,8 @@
 
                 @if($setting && $setting->value == 1)
 
-                if (refreshStatus === "0") {
-
-                    document.getElementById('now_count_down').innerHTML =
-                        "Refresh In <b>" + count + "</b>s";
-
-                } else {
-
-                    document.getElementById('now_count_down').innerHTML =
-                        "Refresh In <b>" + count + "</b>s";
-                }
+                document.getElementById('now_count_down').innerHTML =
+                    "Refresh In <b>" + count + "</b>s";
 
                 @else
 
@@ -1105,7 +1098,36 @@
 
         // Run immediately (no delay on first load)
         updateClock();
+        // =========================================
+        // LISTEN AUTO REFRESH CHANGE FROM TOPBAR
+        // =========================================
+        window.addEventListener('storage', function(event) {
 
+        if (event.key === 'autoRefresh') {
+
+            let status = event.newValue;
+
+            // =====================================
+            // STOP LIVE REFRESH
+            // =====================================
+            if (status === "0") {
+
+                stopAutoRefresh();
+
+                // fetch fixed table data immediately
+                fetchGoldPrices();
+
+            } else {
+
+                // =================================
+                // RESUME LIVE REFRESH
+                // =================================
+                fetchGoldPrices();
+
+                startAutoRefresh();
+            }
+        }
+        });
     </script>
 </body>
 </html>

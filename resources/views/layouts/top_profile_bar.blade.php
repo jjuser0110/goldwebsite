@@ -427,12 +427,17 @@
                     </ul>
                   </li> -->
                   <!--/ Notification -->
-                  <button type="button"
-                        class="btn btn-sm btn-primary"
-                        id="autoToggleBtn"
-                        onclick="toggleAutoRefresh()">
-                    ⏸ Stop Refresh
-                </button>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input"
+                          type="checkbox"
+                          id="autoRefreshSwitch"
+                          onchange="toggleAutoRefresh()"
+                          checked>
+
+                    <label class="form-check-label fw-bold" id="refreshLabel" for="autoRefreshSwitch">
+                        LIVE REFRESH ON
+                    </label>
+                </div>
                   @php
                     $setting = \App\Models\Setting::where('type', 'working')->first();
                   @endphp
@@ -506,6 +511,7 @@
     </div>
 
     <script>
+
     function onofffunction() {
 
         if (!confirm('Are you sure you want to change the working status?')) {
@@ -527,103 +533,61 @@
         });
     }
 
+    // =========================================
+    // LOAD SWITCH STATUS
+    // =========================================
+    window.addEventListener('load', function () {
+
+        let status = localStorage.getItem('autoRefresh');
+
+        // DEFAULT = LIVE ON
+        if (status === null) {
+
+            localStorage.setItem('autoRefresh', "1");
+            status = "1";
+        }
+
+        let switchBtn = document.getElementById('autoRefreshSwitch');
+        let label = document.getElementById('refreshLabel');
+
+        if (status === "1") {
+
+            switchBtn.checked = true;
+            label.innerHTML = "LIVE REFRESH ON";
+
+        } else {
+
+            switchBtn.checked = false;
+            label.innerHTML = "LIVE REFRESH OFF";
+        }
+    });
+
+    // =========================================
+    // TOGGLE SWITCH
+    // =========================================
     function toggleAutoRefresh() {
 
-      let status = localStorage.getItem('autoRefresh') ?? "1";
+        let switchBtn = document.getElementById('autoRefreshSwitch');
+        let label = document.getElementById('refreshLabel');
 
-      let btn = document.getElementById('autoToggleBtn');
-      let countdown = document.getElementById('now_count_down');
+        // =====================================
+        // LIVE MODE
+        // =====================================
+        if (switchBtn.checked) {
 
-      // =========================
-      // STOP REFRESH
-      // =========================
-      if (status === "1") {
+            localStorage.setItem('autoRefresh', "1");
 
-          localStorage.setItem('autoRefresh', "0");
+            label.innerHTML = "LIVE REFRESH ON";
 
-          // stop interval immediately
-          stopAutoRefresh();
+        } else {
 
-          // button text
-          if (btn) {
-              btn.innerHTML = "▶ Resume Refresh";
-          }
+            // =================================
+            // FIXED GOLD TABLE MODE
+            // =================================
+            localStorage.setItem('autoRefresh', "0");
 
-          // paused text
-          if (countdown) {
-              countdown.innerHTML = "Paused";
-          }
+            label.innerHTML = "LIVE REFRESH OFF";
+        }
+    }
 
-          // fetch STATIC goldtable immediately
-          fetchGoldPrices();
-
-      } else {
-
-          // =========================
-          // RESUME REFRESH
-          // =========================
-
-          localStorage.setItem('autoRefresh', "1");
-
-          // button text
-          if (btn) {
-              btn.innerHTML = "⏸ Stop Refresh";
-          }
-
-          // fetch LIVE data immediately
-          fetchGoldPrices();
-
-          // restart interval
-          startAutoRefresh();
-      }
-      }
-
-      window.addEventListener('load', function () {
-
-      let status = localStorage.getItem('autoRefresh');
-
-      if (status === null) {
-
-          localStorage.setItem('autoRefresh', "1");
-          status = "1";
-      }
-
-      let btn = document.getElementById('autoToggleBtn');
-
-      // =========================
-      // PAUSED STATE
-      // =========================
-      if (status === "0") {
-
-          if (btn) {
-              btn.innerHTML = "▶ Resume Refresh";
-          }
-
-          let countdown = document.getElementById('now_count_down');
-
-          if (countdown) {
-              countdown.innerHTML = "Paused";
-          }
-
-          // LOAD GOLDTABLE VALUE
-          fetchGoldPrices();
-
-      } else {
-
-          // =========================
-          // RUNNING STATE
-          // =========================
-          if (btn) {
-              btn.innerHTML = "⏸ Stop Refresh";
-          }
-
-          // fetch latest live prices
-          fetchGoldPrices();
-
-          // start interval
-          if (typeof startAutoRefresh === 'function') {
-              startAutoRefresh();
-          }
-      }
-      });
 </script>
