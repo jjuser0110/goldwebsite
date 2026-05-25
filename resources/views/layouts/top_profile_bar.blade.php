@@ -587,48 +587,52 @@
       }
       }
 
-    window.addEventListener('load', function () {
+      window.addEventListener('load', function () {
 
-        let status = localStorage.getItem('autoRefresh');
+      let status = localStorage.getItem('autoRefresh');
 
-        // first time default ON
-        if (status === null) {
+      if (status === null) {
 
-            localStorage.setItem('autoRefresh', "1");
+          localStorage.setItem('autoRefresh', "1");
+          status = "1";
+      }
 
-            status = "1";
-        }
+      let btn = document.getElementById('autoToggleBtn');
 
-        let btn = document.getElementById('autoToggleBtn');
+      // =========================
+      // PAUSED STATE
+      // =========================
+      if (status === "0") {
 
-        // =========================
-        // PAUSED STATE
-        // =========================
-        if (status === "0") {
+          if (btn) {
+              btn.innerHTML = "▶ Resume Refresh";
+          }
 
-            if (btn) {
-                btn.innerHTML = "▶ Resume Refresh";
-            }
+          let countdown = document.getElementById('now_count_down');
 
-            let countdown = document.getElementById('now_count_down');
+          if (countdown) {
+              countdown.innerHTML = "Paused";
+          }
 
-            if (countdown) {
-                countdown.innerHTML = "Paused";
-            }
+          // LOAD GOLDTABLE VALUE
+          fetchGoldPrices();
 
-        } else {
+      } else {
 
-            // =========================
-            // RUNNING STATE
-            // =========================
-            if (btn) {
-                btn.innerHTML = "⏸ Stop Refresh";
-            }
+          // =========================
+          // RUNNING STATE
+          // =========================
+          if (btn) {
+              btn.innerHTML = "⏸ Stop Refresh";
+          }
 
-            // start auto refresh safely
-            if (typeof startAutoRefresh === 'function') {
-                startAutoRefresh();
-            }
-        }
-    });
+          // fetch latest live prices
+          fetchGoldPrices();
+
+          // start interval
+          if (typeof startAutoRefresh === 'function') {
+              startAutoRefresh();
+          }
+      }
+      });
 </script>
