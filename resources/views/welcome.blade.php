@@ -957,14 +957,13 @@
                 $.each(response.data, function(type, dd) {
 
                     let elem = $("#" + type);
-                    let showname = $("#" + type + "_name");
 
                     let oldValue = parseFloat(
                         elem.text().replace("RM ", "")
                     );
 
                     // OFF WORK
-                    if (dd == 'Off Work') {
+                    if (dd === 'Off Work') {
 
                         elem.text('Off Work');
                         elem.css("color", "gray");
@@ -975,28 +974,31 @@
 
                         elem.text("RM " + newValue);
 
-                        if (isNaN(oldValue)) {
+                        // ONLY animate color when LIVE mode
+                        if (refreshStatus === "1") {
 
-                            elem.css("color", "black");
+                            if (isNaN(oldValue)) {
 
-                        } else if (parseFloat(newValue) > oldValue) {
+                                elem.css("color", "black");
 
-                            elem.css("color", "green");
+                            } else if (parseFloat(newValue) > oldValue) {
 
-                        } else if (parseFloat(newValue) < oldValue) {
+                                elem.css("color", "green");
 
-                            elem.css("color", "red");
+                            } else if (parseFloat(newValue) < oldValue) {
+
+                                elem.css("color", "red");
+
+                            } else {
+
+                                elem.css("color", "black");
+                            }
 
                         } else {
 
+                            // paused mode = fixed color
                             elem.css("color", "black");
                         }
-                    }
-
-                    let newName = response.name[type] || type;
-
-                    if (showname.length) {
-                        showname.text(newName);
                     }
                 });
 
@@ -1076,7 +1078,7 @@
                 if (refreshStatus === "0") {
 
                     document.getElementById('now_count_down').innerHTML =
-                        "Paused";
+                        "Refresh In <b>" + count + "</b>s";
 
                 } else {
 
