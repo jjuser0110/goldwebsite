@@ -1069,13 +1069,27 @@
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
 
-            @if($setting && $setting->value == 1)
-            document.getElementById('now_count_down').innerHTML =
-                "Refresh In <b>" + count + "</b>s";
-            @else
-            document.getElementById('now_count_down').innerHTML =
-                "Off Work";
-            @endif
+                let refreshStatus = localStorage.getItem('autoRefresh') ?? "1";
+
+                @if($setting && $setting->value == 1)
+
+                if (refreshStatus === "0") {
+
+                    document.getElementById('now_count_down').innerHTML =
+                        "Paused";
+
+                } else {
+
+                    document.getElementById('now_count_down').innerHTML =
+                        "Refresh In <b>" + count + "</b>s";
+                }
+
+                @else
+
+                document.getElementById('now_count_down').innerHTML =
+                    "Off Work";
+
+                @endif
 
             count--;
 
