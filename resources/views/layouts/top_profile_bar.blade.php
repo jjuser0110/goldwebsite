@@ -578,4 +578,52 @@
       }
       }
 
+      window.addEventListener('load', function () {
+
+      let status = localStorage.getItem('autoRefresh');
+
+      if (status === null) {
+
+          localStorage.setItem('autoRefresh', "1");
+          status = "1";
+      }
+
+      let btn = document.getElementById('autoToggleBtn');
+
+      // =========================
+      // PAUSED STATE
+      // =========================
+      if (status === "0") {
+
+          if (btn) {
+              btn.innerHTML = "▶ Resume Refresh";
+          }
+
+          let countdown = document.getElementById('now_count_down');
+
+          if (countdown) {
+              countdown.innerHTML = "Paused";
+          }
+
+          // LOAD GOLDTABLE VALUE
+          fetchGoldPrices();
+
+      } else {
+
+          // =========================
+          // RUNNING STATE
+          // =========================
+          if (btn) {
+              btn.innerHTML = "⏸ Stop Refresh";
+          }
+
+          // fetch latest live prices
+          fetchGoldPrices();
+
+          // start interval
+          if (typeof startAutoRefresh === 'function') {
+              startAutoRefresh();
+          }
+      }
+      });
 </script>
