@@ -944,6 +944,8 @@
 
         function fetchGoldPrices() {
 
+        let refreshStatus = localStorage.getItem('autoRefresh') ?? "1";
+
         $.ajax({
             url: "{{ url('getPrices') }}",
             type: "GET",
@@ -951,8 +953,6 @@
                 autoRefresh: refreshStatus
             },
             success: function(response) {
-
-                let refreshStatus = response.live_refresh; // ✅ from server
 
                 $.each(response.data, function(type, dd) {
 
@@ -962,6 +962,7 @@
                         elem.text().replace("RM ", "")
                     );
 
+                    // OFF WORK
                     if (dd === 'Off Work') {
 
                         elem.text('Off Work');
@@ -973,8 +974,8 @@
 
                         elem.text("RM " + newValue);
 
-                        // LIVE MODE (from database)
-                        if (refreshStatus == 1) {
+                        // ONLY animate color when LIVE mode
+                        if (refreshStatus === "1") {
 
                             if (isNaN(oldValue)) {
 
@@ -995,7 +996,7 @@
 
                         } else {
 
-                            // OFF MODE → no animation
+                            // paused mode = fixed color
                             elem.css("color", "black");
                         }
                     }
@@ -1004,10 +1005,29 @@
                 $("#nowdate").text(
                     '- ' + response.now_date + ' ' + response.now_time + ' -'
                 );
-                }
+            }
         });
         }
+        window.addEventListener('load', function () {
 
+            let status = localStorage.getItem('autoRefresh');
+
+            // DEFAULT = LIVE ON
+            if (status === null) {
+
+                localStorage.setItem('autoRefresh', "1");
+                status = "1";
+            }
+
+            // LOAD DATA IMMEDIATELY
+            fetchGoldPrices();
+
+            // ONLY START AUTO REFRESH WHEN LIVE MODE
+            if (status === "1") {
+
+                startAutoRefresh();
+            }
+        });
         let autoRefreshInterval = null;
 
         function startAutoRefresh() {
@@ -1018,6 +1038,10 @@
             }
 
             autoRefreshInterval = setInterval(() => {
+
+                if (localStorage.getItem('autoRefresh') === "0") {
+                    return;
+                }
 
                 fetchGoldPrices();
 
@@ -1035,6 +1059,7 @@
 
         function updateClock() {
 
+            // ALWAYS update datetime
             const now = new Date();
 
             let hours = String(now.getHours()).padStart(2, '0');
@@ -1046,24 +1071,27 @@
             document.getElementById('nowdate').innerHTML =
                 "- {{ $now_date ?? '' }} " + timeString + " -";
 
-            @if($setting && $setting->value == 1)
 
-            document.getElementById('now_count_down').innerHTML =
-                "Refresh In <b>" + count + "</b>s";
+                let refreshStatus = localStorage.getItem('autoRefresh') ?? "1";
 
-            @else
+                @if($setting && $setting->value == 1)
 
-            document.getElementById('now_count_down').innerHTML =
-                "Off Work";
+                document.getElementById('now_count_down').innerHTML =
+                    "Refresh In <b>" + count + "</b>s";
 
-            @endif
+                @else
+
+                document.getElementById('now_count_down').innerHTML =
+                    "Off Work";
+
+                @endif
 
             count--;
 
             if (count === 0) {
                 count = 5;
             }
-            } 
+        }   
 
         // Run every 1 second
         setInterval(updateClock, 1000);
@@ -1073,11 +1101,32 @@
         // =========================================
         // LISTEN AUTO REFRESH CHANGE FROM TOPBAR
         // =========================================
-        window.addEventListener('load', function () {
+        window.addEventListener('storage', function(event) {
 
-        fetchGoldPrices();
+        if (event.key === 'autoRefresh') {
 
-        startAutoRefresh();
+            let status = event.newValue;
+
+            // =====================================
+            // STOP LIVE REFRESH
+            // =====================================
+            if (status === "0") {
+
+                stopAutoRefresh();
+
+                // fetch fixed table data immediately
+                fetchGoldPrices();
+
+            } else {
+
+                // =================================
+                // RESUME LIVE REFRESH
+                // =================================
+                fetchGoldPrices();
+
+                startAutoRefresh();
+            }
+        }
         });
     </script>
 </body>
