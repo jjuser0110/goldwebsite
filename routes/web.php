@@ -31,3 +31,4 @@ Route::get('/gold/{id}/edit', [RateController::class, 'goldEdit'])->name('gold.e
 Route::post('/gold/{id}/update', [RateController::class, 'goldUpdate'])->name('gold.update');
 Route::post('/setting_update', [App\Http\Controllers\HomeController::class, 'setting_update'])->name('setting_update');
 Route::post('/gold/bulk-update', [RateController::class, 'bulkUpdate'])->name('bulk_update_gold');
+Route::post('/live-refresh-update',[App\Http\Controllers\WelcomeController::class, 'liveRefreshUpdate'])->name('live_refresh_update');

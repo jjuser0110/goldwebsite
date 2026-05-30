@@ -32,7 +32,9 @@ class WelcomeController extends Controller
 
         $setting = Setting::where('type', 'working')->first();
 
-        return view('welcome', compact('now_date', 'now_time', 'goldRates','setting'));
+        $liveRefresh = Setting::where('type', 'live_refresh')->first();
+
+        return view('welcome', compact('now_date', 'now_time', 'goldRates','setting','liveRefresh'));
     }
 
     // public function getPrices(Request $request)
@@ -77,7 +79,9 @@ class WelcomeController extends Controller
         }
     
         // CHECK AUTO REFRESH STATUS
-        $autoRefresh = $request->autoRefresh ?? "1";
+        $liveRefresh = Setting::where('type', 'live_refresh')->first();
+
+        $autoRefresh = $liveRefresh?->value ?? 1;
     
         foreach ($goldTypes as $type) {
     
@@ -128,7 +132,29 @@ class WelcomeController extends Controller
             'now_time' => Carbon::now()->format('H:i:s'),
             'data' => $data,
             'name' => $name,
+            'live_refresh' => $autoRefresh,
         ]);
+    }
+
+    public function liveRefreshUpdate(Request $request)
+    {
+        $setting = Setting::where('type', 'live_refresh')->first();
+    
+        if ($setting) {
+    
+            $setting->value = $setting->value == 1 ? 0 : 1;
+    
+            $setting->save();
+    
+            return response()->json([
+                'status' => 'success',
+                'new_value' => $setting->value
+            ]);
+        }
+    
+        return response()->json([
+            'status' => 'error'
+        ], 404);
     }
 
     

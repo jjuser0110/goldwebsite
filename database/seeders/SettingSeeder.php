@@ -18,8 +18,12 @@ class SettingSeeder extends Seeder
         Setting::truncate();
         $data = [
             [
-                'type'=>'working',
-                'value'=>1,
+                'type'  => 'working',
+                'value' => 1,
+            ],
+            [
+                'type'  => 'live_refresh',
+                'value' => 1,
             ],
         ];
         Setting::insert($data);
